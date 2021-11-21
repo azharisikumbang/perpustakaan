@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BukuController;
+use App\Http\Controllers\RakController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
+	Route::resource('buku', BukuController::class);
+	Route::resource('rak', RakController::class);
 });
 
 Route::get('/dashboard', function () {

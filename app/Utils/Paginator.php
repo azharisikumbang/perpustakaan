@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Paginator 
 {
@@ -38,5 +39,16 @@ class Paginator
             	static::getOrderValue($orderAs)
             );
         };
+	}
+
+	public static function createFromModel(Model $model, int $limit = 10, string $orderBy = 'id', string $orderAs = 'desc') : array
+	{
+		$paginated = $model
+			->when(true, static::paginateByOrderAttribute($orderBy, $orderAs))->paginate($limit);
+		$paginated->appends(['limit' => $paginated->perPage(), 'order_by' => $orderBy, 'order_as' => $orderAs]);
+
+		$items = $paginated->getCollection();
+
+		return array_merge($paginated->toArray(), ['data' => $items]);
 	}
 }

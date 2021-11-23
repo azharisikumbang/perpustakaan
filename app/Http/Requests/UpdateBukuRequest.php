@@ -28,6 +28,7 @@ class UpdateBukuRequest extends FormRequest
             'kode' => ['required', Rule::unique('buku')->ignore($this->buku->kode, 'kode')],
             'isbn' => 'required|string',
             'judul' => 'required|string',
+            'sampul' => 'sometimes|image',
             'penerbit' => 'required|string',
             'pengarang' => 'required|string',
             'tahun_terbit' => 'required|size:4',

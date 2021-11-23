@@ -18,6 +18,7 @@ class CreateBukuTable extends Migration
             $table->string("kode");
             $table->string("isbn");
             $table->string("judul");
+            $table->string("sampul")->nullable();
             $table->string("penerbit");
             $table->string("pengarang");
             $table->year("tahun_terbit");

@@ -3,7 +3,8 @@
 - [x] Standard authentication feature (user, role, registration, login, dsb)
 - [x] Admin Panel (front-end first)
 - [x] Manajemen Rak
-- [ ] Manajemen buku
+- [x] Manajemen buku
+- [x] Implementasi gambar / sambul pada buku (dengan default placeholder)
 - [ ] Manajemen setingan default website (misal: masa pinjaman, jumlah maksimal pinjaman, jumlah denda dan sebagainya)
 - [ ] Peminjaman
 - [ ] Pengembalian

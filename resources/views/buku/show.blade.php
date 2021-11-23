@@ -13,7 +13,11 @@
             </div>
             <div class="mb-4 grid grid-cols-3 gap-4">
                 <div class="w-full">
-                    <img src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-3-800x800.jpg" class="shadow-lg rounded w-full max-w-full border-none">
+                    @if($sampul)
+                        <img src="{{ asset('storage/images/sampul/' . $sampul) }}" class="w-full max-w-full">
+                    @else
+                        <x-no-cover size="large" />
+                    @endif
                 </div>
                 <div>
                     <div class="mb-2">

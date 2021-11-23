@@ -11,7 +11,7 @@ class Buku extends Model
 
     protected $table = 'buku';
 
-    protected $fillable = ['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id'];
+    protected $fillable = ['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id', 'sampul'];
 
     public function rak()
     {

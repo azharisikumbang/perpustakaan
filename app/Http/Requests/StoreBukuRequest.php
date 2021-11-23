@@ -27,6 +27,7 @@ class StoreBukuRequest extends FormRequest
             'kode' => 'required|unique:App\Models\Buku,kode',
             'isbn' => 'required|string',
             'judul' => 'required|string',
+            'sampul' => 'sometimes|image',
             'penerbit' => 'required|string',
             'pengarang' => 'required|string',
             'tahun_terbit' => 'required|size:4',

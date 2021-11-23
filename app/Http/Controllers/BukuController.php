@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateBukuRequest;
 use App\Models\Buku;
 use App\Models\Rak;
 use App\Utils\Paginator;
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
@@ -58,7 +59,17 @@ class BukuController extends Controller
      */
     public function store(StoreBukuRequest $request)
     {
-        Buku::create($request->validated());
+        $validated = $request->validated();
+
+        if ($request->hasFile('sampul')) {
+            $file = $request->file('sampul');
+            $filename = $file->hashName();
+            $file->storePubliclyAs('images/sampul', $filename);
+
+            $validated['sampul'] = $filename;
+        }
+
+        Buku::create($validated);
 
         return redirect()
             ->route('buku.index')
@@ -101,7 +112,22 @@ class BukuController extends Controller
      */
     public function update(UpdateBukuRequest $request, Buku $buku)
     {
-        $buku->update($request->validated());
+        $validated = $request->validated();
+
+        if ($request->hasFile('sampul')) {
+
+            if ($buku->sampul) {
+                Storage::delete("images/sampul/{$buku->sampul}");
+            }
+
+            $file = $request->file('sampul');
+            $filename = $file->hashName();
+            $file->storePubliclyAs('images/sampul', $filename);
+
+            $validated['sampul'] = $filename;
+        }
+
+        $buku->update($validated);
 
         return redirect()
             ->route('buku.edit', ['buku' => $buku->id])
@@ -116,6 +142,7 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
+        $sampul = $buku->sampul;
         $isDeleted = $buku->delete();
 
         if (!$isDeleted) {
@@ -125,6 +152,8 @@ class BukuController extends Controller
                 'messages' => 'Internal Server Error.'
             ], 500);
         }
+
+        Storage::delete("images/sampul/{$sampul}");
 
         return response()->json([
             'status' => 'success',

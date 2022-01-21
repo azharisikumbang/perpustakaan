@@ -42,9 +42,8 @@
                                     <th class="w-4 p-4 text-left text-xs font-medium text-gray-500 uppercase">No</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Kode Buku</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Judul</th>
-                                    <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Penulis</th>
+                                    <!-- <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Penulis</th> -->
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Posisi Rak</th>
-                                    <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Alias</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -60,20 +59,21 @@
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $buku['judul'] }}
                                     </td>
-                                    <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                                    <!-- <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $buku['pengarang'] }}
-                                    </td>
+                                    </td> -->
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $buku['rak']['kode'] }} - {{ $buku['rak']['alias'] }}
                                     </td>
                                     <td class="p-4 whitespace-nowrap" x-data="{ deleteOpen: false }">
                                         <div class="space-x-2 justify-end flex">
+                                            <button class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center" @click="addToBookList" data-buku-id="{{ $buku['id'] }}">
+                                                Pinjam Buku
+                                            </button>
                                             <a href="{{ route('buku.edit', ['buku' => $buku['id']]) }}" class="text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center">
-                                                <svg class="mr-2 h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="white"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
                                                 Edit Item
                                             </a>
-                                            <button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center" @click="deleteOpen = true">
-                                                <svg class="mr-2 h-5 w-5" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg> 
+                                            <button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center" @click="deleteOpen = true"> 
                                                 Hapus Item
                                             </button>
                                         </div>
@@ -153,6 +153,93 @@
                     renderAlert("Terjadi kesalahan ! Gagal menghapus data, silahkan coba lagi.", 'red');
                     e.target.innerHTML = "Ya, Saya Yakin"
                 })
+        }
+
+        function addToBookList(e) {
+            const bukuId = e.target.dataset.bukuId;
+            e.target.innerHTML = "Menambahkan...";
+            e.target.classList.add('cursor-not-allowed', 'italic', 'opacity-50');
+
+            axios.post('/admin/keranjang', { "_token": "{{ csrf_token() }}", "buku" : bukuId, "jumlah" : 1 })
+                .then(response => {
+                    if(renderToCart(response.data)) renderAlert("Buku Berhasil ditambahkan ke keranjang pinjam.");
+                    e.target.innerHTML = "Ditambahkan";
+                }).catch(error => {
+                    renderAlert("Terjadi kesalahan ! Buku gagal ditambahakan ke keranjang pinjam, silahkan coba lagi.", 'red');
+                    e.target.classList.remove('cursor-not-allowed', 'italic', 'opacity-50');
+                });
+        }
+
+        function renderToCart(item) {
+            const listBookCart = document.getElementById("list-book-cart");
+
+            if (listBookCart.children[0].classList.contains('no-data')) {
+                listBookCart.innerHTML = null;
+            }
+
+            if (listBookCart.children.length > 0) {
+                for (let i = 0; i < listBookCart.children.length; i++) { 
+                    if (listBookCart.children[i].dataset.bukuKode == item.data.kode) {
+                        renderAlert("Info ! Buku sudah ada di dalam keranjang pinjam.", 'blue');
+                        return false;
+                    };
+                }
+            }
+
+            const itemWrapper = document.createElement('div');
+            itemWrapper.classList.add("border-b", "py-2", "mb-2", "cart-item");
+            itemWrapper.setAttribute('data-buku-kode', item.data.kode);
+            itemWrapper.setAttribute('data-buku-id', item.data.id);
+
+            const itemTitle = document.createElement("h4");
+            itemTitle.classList.add("font-bold", "mb-2");
+            itemTitle.innerHTML = item.data.details.judul;
+
+            const itemDetails = document.createElement("div");
+            itemDetails.classList.add("flex", "justify-between");
+
+            const itemDetailsLeftWrapper = document.createElement("div");
+            const itemDetailsPenulis = document.createElement("p");
+            itemDetailsPenulis.classList.add("italic", "font-light", "text-sm", "text-gray-400");
+            itemDetailsPenulis.innerHTML = item.data.details.pengarang;
+            const itemDetailsHapusBtn = document.createElement("button");
+            itemDetailsHapusBtn.classList.add("text-red-700", "underline", "pointer");
+            itemDetailsHapusBtn.setAttribute('x-on:click', 'removeFromBookList');
+            itemDetailsHapusBtn.innerHTML = "Hapus";
+
+            const itemDetailsRightWrapper = document.createElement("div");
+            itemDetailsRightWrapper.setAttribute('x-data', '{ total: 1 }')
+            const itemDetailsDecrementBtn = document.createElement("button");
+            itemDetailsDecrementBtn.classList.add("w-12", "border", "p-2");
+            itemDetailsDecrementBtn.setAttribute('x-on:click', 'total--');
+            itemDetailsDecrementBtn.innerHTML = "-";
+
+            const itemDetailsTotalInput = document.createElement("input");
+            itemDetailsTotalInput.classList.add("text-center", "w-16", "border", "p-2");
+            itemDetailsTotalInput.setAttribute('x-bind:value', 'total');
+            itemDetailsTotalInput.value = 1;
+
+            const itemDetailsIncrementBtn = document.createElement("button");
+            itemDetailsIncrementBtn.classList.add("w-12", "border", "p-2");
+            itemDetailsIncrementBtn.setAttribute('x-on:click', 'total++');
+            itemDetailsIncrementBtn.innerHTML = "+";
+
+            itemDetailsLeftWrapper.append(itemDetailsPenulis);
+            itemDetailsLeftWrapper.append(itemDetailsHapusBtn);
+
+            itemDetailsRightWrapper.append(itemDetailsDecrementBtn);
+            itemDetailsRightWrapper.append(itemDetailsTotalInput);
+            itemDetailsRightWrapper.append(itemDetailsIncrementBtn);
+
+            itemDetails.append(itemDetailsLeftWrapper);
+            itemDetails.append(itemDetailsRightWrapper);
+
+            itemWrapper.append(itemTitle);
+            itemWrapper.append(itemDetails);
+
+            listBookCart.append(itemWrapper);
+
+            return true;
         }
 
         function renderAlert(message, color = 'green') {

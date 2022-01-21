@@ -21,6 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'institute_reg_number',
+        'institute_name',
+        'institute_address',
+        'personal_address',
+        'gender',
+        'contact'
     ];
 
     /**
@@ -41,4 +47,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function peminjaman() 
+    {
+        return $this->hasMany(Peminjaman::class, 'peminjam');
+    }
 }

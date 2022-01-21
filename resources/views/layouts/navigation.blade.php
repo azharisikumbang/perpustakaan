@@ -13,6 +13,40 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <x-cart>
+                    <x-slot name="trigger">
+                        <button class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto mr-6">
+                            <svg class="-ml-1 h-6 w-6" viewBox="0 0 20 20">
+                                <path fill="#fff" d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
+                            </svg>
+                            <span class="ml-2">Keranjang Buku</span>
+                        </button>
+                    </x-slot>
+                    <x-slot name="content">
+                    @if(session('keranjang-pinjam'))
+                       @forelse(session('keranjang-pinjam')['list-buku'] as $buku)
+                            <div class="border-b py-2 mb-2 cart-item" data-buku-kode="{{ $buku['kode'] }}" data-buku-id="{{ $buku['id'] }}">
+                                <h4 class="font-bold mb-2">{{ $buku['details']['judul'] }}</h4>
+                                <div class="flex justify-between">
+                                    <div>
+                                       <p class="italic font-light text-sm text-gray-400">{{ $buku['details']['pengarang'] }}</p>
+                                       <button class="text-red-700 underline pointer" @click="removeFromBookList">Hapus</button>
+                                    </div>
+                                    <div x-data='{ total: <?= $buku["jumlah"] ?> }'>
+                                        <button class="w-12 border p-2" @click="total--">-</button>
+                                        <input type="text" name="" :value='total' class="text-center w-16 border">
+                                        <button class="w-12 border p-2" @click="total++">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                       @empty
+                            <div class="text-center my-4 no-data">Tidak ada data.</div>
+                       @endforelse
+                    @else
+                        <div class="text-center my-4 no-data">Tidak ada data.</div>
+                    @endif
+                    </x-slot>
+                </x-cart>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
@@ -82,4 +116,20 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function removeFromBookList(e) {
+            const parent = e.target.closest('.cart-item');
+            const bukuId = parent.dataset.bukuId;
+            e.target.innerHTML = "Menghapus...";
+
+            axios.post('/admin/keranjang/' + bukuId, { "_token": "{{ csrf_token() }}", "_method" : "DELETE" })
+                .then(response => {
+                    parent.closest('.cart-item').remove(); 
+                    e.target.innerHTML = "Hapus";
+                }).catch(error => {
+                    console.log(error);
+                    e.target.innerHTML = "Hapus";
+                });
+        }
+    </script>
 </nav>

@@ -48,5 +48,15 @@ class Handler extends ExceptionHandler
                 ], 404);
             }
         });
+
+        $this->renderable(function(ModelNotFoundException $e, $request) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'fail',
+                    'code' => 404,
+                    'messages' => 'Requested model not found'
+                ], 404);
+            }
+        });
     }
 }

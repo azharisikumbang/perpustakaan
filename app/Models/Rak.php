@@ -12,4 +12,9 @@ class Rak extends Model
     protected $table = 'rak';
 
     protected $fillable = ['kode', 'alias']; 
+
+    public function buku()
+    {
+    	return $this->hasMany(Buku::class);
+    }
 }

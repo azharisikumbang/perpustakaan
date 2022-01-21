@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateAnggotaTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('anggota', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->string('nomor_identitas', 128); // nim nip
+            $table->text('institusi');
+            $table->text('alamat_institusi');
+            $table->text('alamat_pribadi');
+            $table->char('jenis_kelamin', 1)->default(0); // ISO 5218
+            $table->string('kontak', 16)->nullable();
+            $table->unsignedBigInteger('auth')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('anggota');
+    }
+}

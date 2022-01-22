@@ -16,7 +16,8 @@ class CreatePeminjamanTable extends Migration
     {
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
-            $table->char('kode', Peminjaman::LENGTH)->unique(); // 2021/08/PINJAM/00001
+            $table->string('kode');             
+            $table->unsignedInteger('kode_counter');
             $table->dateTime('tanggal_peminjaman');
             $table->unsignedTinyInteger('lama_peminjaman')->default(0);
             $table->dateTime('tanggal_pengembalian')->nullable()->default(null);

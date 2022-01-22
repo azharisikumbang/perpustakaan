@@ -74,7 +74,7 @@ class BookListService
 		return true;
 	}
 
-	private function setUpBookListContainer() : void
+	public function setUpBookListContainer() : void
 	{
 		session([self::CONTAINER_NAME => [
 			'list-buku' => [],

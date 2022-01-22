@@ -20,7 +20,7 @@ class PeminjamanController extends Controller
         $perPage = $httpRequestAttributes['limit'] ?? Paginator::OFFSET;
         $orderBy = $httpRequestAttributes['order_by'] ?? 'id';
         $orderAs = $httpRequestAttributes['order_as'] ?? null;
-        $listRak = Peminjaman::with('bukuCount')
+        $listRak = Peminjaman::with(['bukuCount', 'peminjam'])
             ->select('id', 'kode', 'tanggal_peminjaman', 'lama_peminjaman')
             ->when(
                 isset($httpRequestAttributes['order_by']),
@@ -28,6 +28,8 @@ class PeminjamanController extends Controller
             )->paginate($perPage);
 
         $listRak->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
+
+        dd($listRak->toArray());
 
         return view('peminjaman.index', $listRak->toArray());
     }
@@ -61,7 +63,7 @@ class PeminjamanController extends Controller
      */
     public function show(Peminjaman $peminjaman)
     {
-        //
+        dd($peminjaman);
     }
 
     /**

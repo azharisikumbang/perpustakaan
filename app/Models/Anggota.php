@@ -12,4 +12,9 @@ class Anggota extends Model
     protected $table = 'anggota';
 
     protected $fillable = ['nama', 'nomor_identitas', 'institusi', 'alamat_institusi', 'alamat_pribadi', 'jenis_kelamin', 'kontak', 'auth'];
+
+    public function peminjaman()
+    {
+    	return $this->hasMany(Peminjaman::class, 'peminjam');
+    }
 }

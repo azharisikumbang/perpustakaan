@@ -40,7 +40,7 @@
     						<thead class="bg-gray-100">
     							<tr>
     								<th class="w-4 p-4 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-    								<th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
+    								<th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">No. Peminjaman</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Peminjaman</th>
     								<th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Peminjam</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Jumlah Buku</th>
@@ -59,6 +59,8 @@
     								<td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
     									{{ $peminjaman['tanggal_peminjaman'] }}
     								</td>
+                                    <td>{{ $peminjaman }}</td>
+                                    <td></td>
     								<td class="p-4 whitespace-nowrap" x-data="{ deleteOpen: false }">
                                         <div class="space-x-2 justify-end flex">
                                             <a href="{{ route('peminjaman.edit', ['peminjaman' => $peminjaman['id']]) }}" class="text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center">

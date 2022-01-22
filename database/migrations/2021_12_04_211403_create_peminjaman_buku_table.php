@@ -17,6 +17,7 @@ class CreatePeminjamanBukuTable extends Migration
             $table->id();
             $table->unsignedBigInteger('peminjaman_id');
             $table->unsignedBigInteger('buku_id');
+            $table->unsignedTinyInteger('jumlah')->default(0);
             $table->timestamps();
         });
     }

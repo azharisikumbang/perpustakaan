@@ -13,19 +13,21 @@ class Peminjaman extends Model
 
     protected $table = 'peminjaman';
 
-    protected $appends = ['total_buku'];
+    protected $appends = ['total_buku']; 
+
+    protected $fillable = ['kode', 'tanggal_peminjaman', 'lama_peminjaman', 'tanggal_pengembalian', 'nominal_denda', 'peminjam'];
 
     public function peminjam() 
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Anggota::class);
     }
 
     public function buku() 
     {
-    	return $this->belongsToMany(Buku::class, 'peminjaman_buku');
+    	return $this->belongsToMany(Buku::class, 'peminjaman_buku')->withPivot(['jumlah', 'created_at', 'updated_at']);
     }
 
-    public function bukuCount() 
+    public function bukuCount()
     {
     	return $this
     		->buku()
@@ -40,5 +42,15 @@ class Peminjaman extends Model
     	$relation = $this->getRelation('bukuCount')->first();
 
     	return ($relation) ? $relation->total_buku : 0;
+    }
+
+    public static function boot() 
+    {
+        parent::boot();
+
+        static::creating(function($model) {
+            $model->kode_counter = Peminjaman::max('kode_counter') + 1;
+            $model->kode = sprintf("%s/PINJAM/%s", date('Y/m'), str_pad($model->kode_counter, 6, '0', STR_PAD_LEFT)); // 2021/08/PINJAM/00001
+        });
     }
 }

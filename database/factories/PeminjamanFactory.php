@@ -14,7 +14,7 @@ class PeminjamanFactory extends Factory
     public function definition()
     {
         return [
-            'kode' => '2021/12/PINJAM/' . rand(1, 99999),
+            'kode' => rand(1, 99999),
             'tanggal_peminjaman' => $this->faker->dateTime(),
             'lama_peminjaman' => $this->faker->randomDigitNotZero(),
             'tanggal_pengembalian' => null,

@@ -20,16 +20,14 @@ class PeminjamanController extends Controller
         $perPage = $httpRequestAttributes['limit'] ?? Paginator::OFFSET;
         $orderBy = $httpRequestAttributes['order_by'] ?? 'id';
         $orderAs = $httpRequestAttributes['order_as'] ?? null;
-        $listRak = Peminjaman::with(['bukuCount', 'peminjam'])
-            ->select('id', 'kode', 'tanggal_peminjaman', 'lama_peminjaman')
+        $listRak = Peminjaman::with('peminjam')
+            ->select('id', 'kode', 'tanggal_peminjaman', 'lama_peminjaman', 'peminjam')
             ->when(
                 isset($httpRequestAttributes['order_by']),
                 Paginator::paginateByOrderAttribute($orderBy, $orderAs)
             )->paginate($perPage);
 
         $listRak->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
-
-        dd($listRak->toArray());
 
         return view('peminjaman.index', $listRak->toArray());
     }
@@ -63,7 +61,23 @@ class PeminjamanController extends Controller
      */
     public function show(Peminjaman $peminjaman)
     {
-        dd($peminjaman);
+        $peminjaman->load(['peminjam', 'buku.rak']);
+
+        $peminjaman = $peminjaman->toArray();
+
+        $sekarang = new \DateTime();
+        $batas_pengembalian = new \DateTime($peminjaman['tanggal_peminjaman']);
+        $batas_pengembalian->modify("+{$peminjaman['lama_peminjaman']} days");
+        $perbedaan = $sekarang->diff($batas_pengembalian);
+        $keterlambatan = [
+            'batas_pengembalian' => $batas_pengembalian->format('Y-m-d H:i:s'),
+            'terlambat' => $perbedaan->invert, 
+            'hari' => $perbedaan->days
+        ];
+
+        $peminjaman['keterlambatan'] = $keterlambatan;
+
+        return view('peminjaman.show', $peminjaman);
     }
 
     /**

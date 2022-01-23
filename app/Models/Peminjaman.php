@@ -19,7 +19,7 @@ class Peminjaman extends Model
 
     public function peminjam() 
     {
-        return $this->belongsTo(Anggota::class);
+        return $this->belongsTo(Anggota::class, 'peminjam');
     }
 
     public function buku() 
@@ -31,7 +31,7 @@ class Peminjaman extends Model
     {
     	return $this
     		->buku()
-    		->selectRaw('count(peminjaman_buku.buku_id) as total_buku')
+    		->selectRaw('sum(jumlah) as total_buku')
     		->groupBy('pivot_peminjaman_id');
     }
 

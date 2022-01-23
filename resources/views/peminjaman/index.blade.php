@@ -54,13 +54,15 @@
     									{{ $loop->iteration }}
     								</td>
     								<td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-    									{{ $peminjaman['kode'] }}
+    									<a class="underline hover:text-red-500" href="{{ route('peminjaman.show', ['peminjaman' => $peminjaman['id'] ]) }}">{{ $peminjaman['kode'] }}</a>
     								</td>
     								<td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
     									{{ $peminjaman['tanggal_peminjaman'] }}
     								</td>
-                                    <td>{{ $peminjaman }}</td>
-                                    <td></td>
+                                    <td>
+                                        <a class="underline hover:text-red-500" href="{{ route('keanggotaan.show', ['keanggotaan' => $peminjaman['peminjam']['id'] ]) }}">
+                                        {{ $peminjaman['peminjam']['nama'] }}</a> ({{ $peminjaman['peminjam']['nomor_identitas'] }})</td>
+                                    <td class="text-center">{{ $peminjaman['total_buku'] }}</td>
     								<td class="p-4 whitespace-nowrap" x-data="{ deleteOpen: false }">
                                         <div class="space-x-2 justify-end flex">
                                             <a href="{{ route('peminjaman.edit', ['peminjaman' => $peminjaman['id']]) }}" class="text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center">

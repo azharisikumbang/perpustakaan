@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePeminjamanRequest extends FormRequest
+class StorePembayaranRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class UpdatePeminjamanRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:App\Models\Peminjaman,id'
+            'nominal' => 'required|numeric|min:0',
+            'kode' => 'required|exists:App\Models\Peminjaman,kode'
         ];
     }
 }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePeminjamanRequest;
 use App\Http\Requests\UpdatePeminjamanRequest;
 use App\Models\Peminjaman;
+use App\Services\HitungKeterlambatanService;
 use App\Utils\Paginator;
+use Illuminate\Support\Facades\DB;
 
 class PeminjamanController extends Controller
 {
@@ -62,17 +64,15 @@ class PeminjamanController extends Controller
     public function show(Peminjaman $peminjaman)
     {
         $peminjaman->load(['peminjam', 'buku.rak']);
-
         $peminjaman = $peminjaman->toArray();
-
-        $sekarang = new \DateTime();
+        $sekarang = is_null($peminjaman['tanggal_pengembalian']) ? new \DateTime() : new \DateTime($peminjaman['tanggal_pengembalian']);
         $batas_pengembalian = new \DateTime($peminjaman['tanggal_peminjaman']);
         $batas_pengembalian->modify("+{$peminjaman['lama_peminjaman']} days");
         $perbedaan = $sekarang->diff($batas_pengembalian);
         $keterlambatan = [
             'batas_pengembalian' => $batas_pengembalian->format('Y-m-d H:i:s'),
             'terlambat' => $perbedaan->invert, 
-            'hari' => $perbedaan->days
+            'hari' => ($perbedaan->h > 0) ? $perbedaan->days + 1 : $perbedaan->days
         ];
 
         $peminjaman['keterlambatan'] = $keterlambatan;
@@ -94,13 +94,34 @@ class PeminjamanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePeminjamanRequest  $request
      * @param  \App\Models\Peminjaman  $peminjaman
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePeminjamanRequest $request, Peminjaman $peminjaman)
+    public function update(Peminjaman $peminjaman, HitungKeterlambatanService $service)
     {
-        //
+        if (!is_null($peminjaman->tanggal_pengembalian)) {
+            return redirect()
+                ->route('peminjaman.show', ['peminjaman' => $peminjaman->id])
+                ->with(['status' => 0, 'messages' => 'Peminjaman ini telah tercatat dikembalikan, mohon periksa kembali.']);
+        }
+
+        $hariKeterlambatan = $service->hitung($peminjaman, new \DateTime());
+        if ($hariKeterlambatan > 0 && is_null($peminjaman->tanggal_pengembalian)) {
+            return redirect()
+                ->route('pembayaran.create', ['peminjaman' => $peminjaman->id])
+                ->with(['status' => 0, 'messages' => 'Peminjaman telah terlambat, silahkan lakukan pembayaran denda terlebih dahulu.']);
+        }
+
+        DB::transaction(function() use ($peminjaman) {
+            $peminjaman->update(['tanggal_pengembalian' => date('Y-m-d H:i:s')]);
+            $peminjaman->buku->each(function($buku) use ($peminjaman) {
+                $buku->update(['stok' => $buku->stok + $buku->pivot->jumlah]);
+            });
+        });
+
+        return redirect()
+            ->route('peminjaman.show', ['peminjaman' => $peminjaman->id])
+            ->with(['status' => 1, 'messages' => 'Berhasil menyimpan catatan pengembalian.']);
     }
 
     /**

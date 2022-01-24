@@ -27,6 +27,11 @@ class Peminjaman extends Model
     	return $this->belongsToMany(Buku::class, 'peminjaman_buku')->withPivot(['jumlah', 'created_at', 'updated_at']);
     }
 
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class);
+    }
+
     public function bukuCount()
     {
     	return $this

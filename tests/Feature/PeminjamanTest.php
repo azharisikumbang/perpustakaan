@@ -14,12 +14,6 @@ class PeminjamanTest extends TestCase
     /** @test */
     public function user_can_see_index_page()
     {
-        $this->signIn();
-
-        Peminjaman::factory()->count(10)->create();
-
-        $response = $this->get('admin/peminjaman');
-
         $this->markTestIncomplete('todo tomorrow');
     }
 

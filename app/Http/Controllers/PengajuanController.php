@@ -37,6 +37,13 @@ class PengajuanController extends Controller
         $listBuku = [];
         $dataPeminjaman = $bookListService->getAllBookList();
         foreach ($dataPeminjaman['list-buku'] as $buku) {
+
+            if ($buku['details']['stok'] < 1) {
+                return redirect()
+                    ->route('pengajuan.index')
+                    ->with(['status' => 0, 'messages' => 'Buku yang anda pinjam tidak memiliki stok.']);
+            }
+
             if ($buku['details']['stok'] < $buku['jumlah']) {
                 return redirect()
                     ->route('pengajuan.index')
@@ -54,7 +61,6 @@ class PengajuanController extends Controller
         $peminjaman = Peminjaman::create([
             'tanggal_peminjaman' => date('Y/m/d H:i:s'),
             'lama_peminjaman' => $detailPeminjaman->lama_pinjaman,
-            'tanggal_pengembalian' => date("Y/m/d H:i:s", strtotime("+" . $detailPeminjaman->lama_pinjaman . " days")),
             'nominal_denda' => $detailPeminjaman->nominal_denda,
             'peminjam' => $peminjam['id']
         ]);

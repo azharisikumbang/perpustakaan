@@ -14,11 +14,11 @@ class PeminjamanFactory extends Factory
     public function definition()
     {
         return [
-            'kode' => rand(1, 99999),
+            'kode' => sprintf("%s/PINJAM/%s", date('Y/m'), str_pad(rand(0, 99999), 6, '0', STR_PAD_LEFT)),
             'tanggal_peminjaman' => $this->faker->dateTime(),
             'lama_peminjaman' => $this->faker->randomDigitNotZero(),
             'tanggal_pengembalian' => null,
-            'nominal_denda' => $this->faker->randomNumber(4),
+            'nominal_denda' => $this->faker->randomNumber(4)
         ];
     }
 }

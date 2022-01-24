@@ -5,6 +5,7 @@ use App\Http\Controllers\CekAnggotaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeanggotaanController;
 use App\Http\Controllers\KeranjangBukuController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PengaturanController;
@@ -42,6 +43,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], func
 	Route::post('keranjang', [KeranjangBukuController::class, 'store'])->name('list.store');
 	Route::delete('keranjang/{buku}', [KeranjangBukuController::class, 'remove'])->name('list.remove');
 	Route::put('keranjang', [KeranjangBukuController::class, 'update'])->name('list.update');
+
+	Route::get('pembayaran', [PembayaranController::class, 'create'])->name('pembayaran.create');
+	Route::post('pembayaran', [PembayaranController::class, 'store'])->name('pembayaran.store');
 
 	Route::get('pengaturan', [ PengaturanController::class, 'edit' ])->name('pengaturan.edit');
 	Route::put('pengaturan', [ PengaturanController::class, 'update' ])->name('pengaturan.update');

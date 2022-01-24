@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PengaturanFactory extends Factory
+class PembayaranFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,9 +14,7 @@ class PengaturanFactory extends Factory
     public function definition()
     {
         return [
-            'lama_pinjaman' => 7,
-            'jumlah_pinjaman' => 5,
-            'nominal_denda' => 1000
+            //
         ];
     }
 }

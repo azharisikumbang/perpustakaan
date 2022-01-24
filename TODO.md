@@ -6,7 +6,7 @@
 - [x] Manajemen buku
 - [x] Implementasi gambar / sambul pada buku (dengan default placeholder)
 - [x] Manajemen setingan default website (misal: masa pinjaman, jumlah maksimal pinjaman, jumlah denda dan sebagainya)
-- [ ] Peminjaman
+- [X] Peminjaman
 - [ ] Pengembalian
 - [ ] Pembayaran Denda
 - [ ] Cek Status Peminjaman

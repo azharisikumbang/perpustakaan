@@ -41,10 +41,12 @@ class BookListingTest extends TestCase
                     'kode' => $resourceBuku->kode,
                     'jumlah' => $requestBuku['jumlah'],
                     'details' => [
+                        'isbn' => $resourceBuku->isbn,
                         'judul' => $resourceBuku->judul,
                         'pengarang' => $resourceBuku->pengarang,
                         'stok' => $resourceBuku->stok,
                         'rak' => $resourceBuku->rak->kode . ' - ' . $resourceBuku->rak->alias,
+                        'sampul' => $resourceBuku->sampul,
                     ]
                 ]
             ], $keranjang['list-buku']);
@@ -63,7 +65,7 @@ class BookListingTest extends TestCase
             $json
                 ->has('messages')
                 ->where('status', 200)
-                ->where('data', session('keranjang-pinjam'))
+                ->where('data', array_values(session('keranjang-pinjam')['list-buku'])[0])
                 ->etc();
         });
     }
@@ -182,19 +184,14 @@ class BookListingTest extends TestCase
 
         tap(session('keranjang-pinjam'), function ($session) use($books) {
             $books = $books->toArray();
-
             $this->assertCount(4, $session['list-buku']);
-
-            $this->assertEquals($books[0]['id'], $session['list-buku'][$books[0]['kode']]['id']);     
+            $this->assertEquals($books[0]['id'], $session['list-buku'][$books[0]['kode']]['id']);
             $this->assertEquals(20, $session['list-buku'][$books[0]['kode']]['jumlah']);  
-
-            $this->assertEquals($books[1]['id'], $session['list-buku'][$books[1]['kode']]['id']);     
+            $this->assertEquals($books[1]['id'], $session['list-buku'][$books[1]['kode']]['id']);
             $this->assertEquals(5, $session['list-buku'][$books[1]['kode']]['jumlah']);  
-
-            $this->assertEquals($books[2]['id'], $session['list-buku'][$books[2]['kode']]['id']);     
+            $this->assertEquals($books[2]['id'], $session['list-buku'][$books[2]['kode']]['id']);
             $this->assertEquals(11, $session['list-buku'][$books[2]['kode']]['jumlah']);  
-
-            $this->assertEquals($books[3]['id'], $session['list-buku'][$books[3]['kode']]['id']);     
+            $this->assertEquals($books[3]['id'], $session['list-buku'][$books[3]['kode']]['id']);
             $this->assertEquals(2, $session['list-buku'][$books[3]['kode']]['jumlah']);        
         });
     }

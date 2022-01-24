@@ -5,7 +5,16 @@
                 Peminjaman <span class="text-gray-500 font-italic">#{{ $kode }}</span>
             </h2>
             <div>
-                <a href="#" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">Ajukan Pengembalian</a>
+                @if($tanggal_pengembalian)
+                    <span class="border-dashed border-4 border-green-600 font-semibold px-4 py-2 text-green-600">DIKEMBALIKAN</span>
+                @else
+                    <form action="{{ route('peminjaman.update', ['peminjaman' => $id]) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="id" value="{{ $id }}">
+                        <button type="submit" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">Ajukan Pengembalian</button>
+                    </form>
+                @endif
             </div>
         </div>
     </x-slot>
@@ -55,8 +64,13 @@
                         <div class="font-semibold">{{ $total_buku }} buku</div>
                     </div>
                     <div class="py-4 border-b border-gray-300 flex justify-between">
-                        <div class="font-light text-gray-400">Tanggal Pengembalian</div>
+                        <div class="font-light text-gray-400">Batas Pengembalian</div>
                         <div class="font-semibold">{{ date('d/m/Y', strtotime($keterlambatan['batas_pengembalian'])) }}</div>
+                    </div>
+                    <div class="text-xl font-bold mb-2 mt-8">Informasi Pengembalian</div>
+                    <div class="py-4 border-b border-gray-300 flex justify-between">
+                        <div class="font-light text-gray-400">Tanggal Pengembalian</div>
+                        <div class="font-semibold">{{ $tanggal_pengembalian ? date('d/m/Y', strtotime($tanggal_pengembalian)) : '-' }}</div>
                     </div>
                     <div class="py-4 border-b border-gray-300 flex justify-between">
                         <div class="font-light text-gray-400">Keterlambatan</div>

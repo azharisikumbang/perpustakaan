@@ -14,7 +14,13 @@ class AnggotaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nama' => $this->faker->name(),
+            'nomor_identitas' => $this->faker->bothify('?-###'),
+            'institusi' => $this->faker->company(),
+            'alamat_institusi' => $this->faker->address(),
+            'alamat_pribadi' => $this->faker->address(),
+            'jenis_kelamin' => rand(0, 3),
+            'kontak' => $this->faker->phoneNumber()
         ];
     }
 }

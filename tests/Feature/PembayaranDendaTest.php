@@ -48,7 +48,7 @@ class PembayaranDendaTest extends TestCase
         $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('Y-m-d H:i:s')]);
         	
         // ajukan pengembalian
-        $this->put(route('peminjaman.update', ['peminjaman' => $peminjaman->id]));
+        // $this->put(route('peminjaman.update', ['peminjaman' => $peminjaman->id]));
 
         $requestData = ['nominal' => 10000, 'kode' => $peminjaman->kode];
         $response = $this->post(route('pembayaran.store'), $requestData);
@@ -60,6 +60,28 @@ class PembayaranDendaTest extends TestCase
         $this->assertDatabaseCount('pembayaran', 0);
 
     }
+
+    /** @test */
+    public function pembayaran_yang_sudah_dikembalikan_tidak_boleh_dicatat()
+    {
+        $this->signIn();
+        $this->withoutExceptionHandling();
+        $peminjaman = $this->createPeminjaman();
+        $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('Y-m-d H:i:s')]);
+            
+        // ajukan pengembalian
+        $this->put(route('peminjaman.update', ['peminjaman' => $peminjaman->id]));
+
+        $requestData = ['nominal' => 10000, 'kode' => $peminjaman->kode];
+        $response = $this->post(route('pembayaran.store'), $requestData);
+
+        $response->assertRedirect(route('peminjaman.show', ['peminjaman' => $peminjaman->id]));
+        $response->assertSessionHas('status', 0);
+        $response->assertSessionHas('messages', 'Peminjaman ini telah tercatat dikembalikan, mohon periksa kembali.');
+
+        $this->assertDatabaseCount('pembayaran', 0);
+    }
+    
 
     /** @test */
     public function nominal_pembayaran_harus_sesuai_dengan_nominal_dan_hari_keterlambatan()
@@ -85,5 +107,71 @@ class PembayaranDendaTest extends TestCase
         ]);
 
         $response->assertSessionHas('messages', sprintf("Pembayaran sebesar Rp. %s berhasil dicatat.", $denda));
-    }    
+    }   
+
+    /** @test */
+    public function pembayaran_yang_tidak_sesuai_nominal_harus_ditolak()
+    {
+        $this->signIn();
+        $this->withoutExceptionHandling();
+        $peminjaman = $this->createPeminjaman();
+        $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('2022-01-01 H:i:s')]);
+
+        // ajukan pengembalian
+        $this->put(route('peminjaman.update', ['peminjaman' => $peminjaman->id]));
+
+        $hitungKeterlambatanService = new HitungKeterlambatanService();
+        $keterlambatan = $hitungKeterlambatanService->hitung($peminjaman);
+        $denda = $peminjaman->nominal_denda * $keterlambatan;
+
+        $requestData = ['nominal' => 1, 'kode' => $peminjaman->kode];
+        $response = $this->post(route('pembayaran.store'), $requestData);
+
+        $this->assertDatabaseCount('pembayaran', 0);
+        $response->assertSessionHas('messages', "Pembayaran tidak sesuai dengan nominal seharusnya, mohon dicek kembali.");
+    }
+    
+    /** @test */
+    public function pembayaran_valid_harus_menambah_stok_buku()
+    {
+        $this->signIn();
+        $this->withoutExceptionHandling();
+        $pengaturan = Pengaturan::factory()->create();
+        $rak = Rak::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100]);
+        $buku_item_total = [];
+
+        foreach ($books->toArray() as $book) {
+            $stokPinjam = rand(1, 100); // 20
+            $buku_item_total[$book['id']] = $stokPinjam;
+            $this->postJson('admin/keranjang', ['buku' => $book['id'], 'jumlah' => $stokPinjam]);
+        }
+
+        $peminjam = Anggota::factory()->create();
+        $listBuku = Buku::all();
+        $this->post(route('pengajuan.store'), [
+            'user' => $peminjam->nomor_identitas,
+            'buku_item_total' => $buku_item_total,
+            'buku_total' => 3
+        ]);
+
+        $peminjaman = Peminjaman::first();
+        $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('2022-01-01 H:i:s')]);
+
+        // ajukan pengembalian
+        $this->put(route('peminjaman.update', ['peminjaman' => $peminjaman->id]));
+
+        $hitungKeterlambatanService = new HitungKeterlambatanService();
+        $keterlambatan = $hitungKeterlambatanService->hitung($peminjaman);
+        $denda = $peminjaman->nominal_denda * $keterlambatan;
+
+        $requestData = ['nominal' => $denda, 'kode' => $peminjaman->kode];
+        $books = Buku::all();
+        $response = $this->post(route('pembayaran.store'), $requestData);
+
+        $books->each(function ($book) use ($buku_item_total) {
+            $this->assertDatabaseHas('buku', ['stok' => $book->stok + $buku_item_total[$book->id]]);
+        });
+    }
+    
 }

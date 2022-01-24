@@ -69,8 +69,8 @@ class PengajuanController extends Controller
         $bookListService->setUpBookListContainer();
 
         return redirect()
-            ->route('peminjaman.index')
-            ->with(['status' => 1, 'messages' => 'Peminjaman berhasil diajukan.']);
+            ->route('peminjaman.show', ['peminjaman' => $peminjaman->id])
+            ->with(['status' => 1, 'messages' => 'Peminjaman berhasil dibuat.']);
     }
 
 }

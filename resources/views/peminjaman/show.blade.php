@@ -11,7 +11,6 @@
                     <form action="{{ route('peminjaman.update', ['peminjaman' => $id]) }}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id" value="{{ $id }}">
                         <button type="submit" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">Ajukan Pengembalian</button>
                     </form>
                 @endif
@@ -74,11 +73,11 @@
                     </div>
                     <div class="py-4 border-b border-gray-300 flex justify-between">
                         <div class="font-light text-gray-400">Keterlambatan</div>
-                        <div class="font-semibold">{{ $keterlambatan['terlambat'] ? $keterlambatan['hari'] . ' hari' : '-' }}</div>
+                        <div class="font-semibold">{{ ($keterlambatan['hari'] > 0) ? $keterlambatan['hari'] . ' hari' : '-' }}</div>
                     </div>
                     <div class="py-4 border-b border-gray-300 flex justify-between">
                         <div class="font-light text-gray-400">Denda</div>
-                        <div class="font-semibold">{{ $keterlambatan['terlambat'] ? 'Rp. ' . number_format($keterlambatan['hari'] * $nominal_denda, 0, 2, ".") : '-' }}</div>
+                        <div class="font-semibold">{{ ($keterlambatan['hari'] > 0) ? 'Rp. ' . number_format($keterlambatan['hari'] * $nominal_denda, 0, 2, ".") : '-' }}</div>
                     </div>
                 </div>
             </div>

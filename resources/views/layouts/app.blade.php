@@ -26,7 +26,7 @@
                 <div class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
                     <main>
                         <div class="pt-6 px-4">
-                            <div class="mb-4" id="alert">@include('layouts.alert')</div>
+                            <div class="mb-8" id="alert">@include('layouts.alert')</div>
                             <div class="mb-4">{{ $header }}</div>
                             <div class="mb-4">{{ $slot }}</div>
                         </div>

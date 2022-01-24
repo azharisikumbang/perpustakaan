@@ -145,8 +145,8 @@ class PengajuanPeminjamanTest extends TestCase
             ]);
         });
 
-        $response->assertRedirect(route('peminjaman.index'));
-        $response->assertSessionHas(['messages' => 'Peminjaman berhasil diajukan.']);
+        $response->assertRedirect(route('peminjaman.show', ['peminjaman' => 1]));
+        $response->assertSessionHas(['messages' => 'Peminjaman berhasil dibuat.']);
     }
     
     

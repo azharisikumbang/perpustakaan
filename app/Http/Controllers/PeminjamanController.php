@@ -61,23 +61,19 @@ class PeminjamanController extends Controller
      * @param  \App\Models\Peminjaman  $peminjaman
      * @return \Illuminate\Http\Response
      */
-    public function show(Peminjaman $peminjaman)
+    public function show(Peminjaman $peminjaman, HitungKeterlambatanService $service)
     {
         $peminjaman->load(['peminjam', 'buku.rak']);
-        $peminjaman = $peminjaman->toArray();
-        $sekarang = is_null($peminjaman['tanggal_pengembalian']) ? new \DateTime() : new \DateTime($peminjaman['tanggal_pengembalian']);
-        $batas_pengembalian = new \DateTime($peminjaman['tanggal_peminjaman']);
-        $batas_pengembalian->modify("+{$peminjaman['lama_peminjaman']} days");
-        $perbedaan = $sekarang->diff($batas_pengembalian);
+        $hariKeterlambatan = $service->hitung($peminjaman);
         $keterlambatan = [
-            'batas_pengembalian' => $batas_pengembalian->format('Y-m-d H:i:s'),
-            'terlambat' => $perbedaan->invert, 
-            'hari' => ($perbedaan->h > 0) ? $perbedaan->days + 1 : $perbedaan->days
+            'hari' => $hariKeterlambatan,
+            'batas_pengembalian' => date("Y-m-d H:i:s", strtotime(sprintf("+%s days", $peminjaman->lama_peminjaman)))
         ];
 
-        $peminjaman['keterlambatan'] = $keterlambatan;
-
-        return view('peminjaman.show', $peminjaman);
+        return view('peminjaman.show', array_merge(
+            $peminjaman->toArray(), 
+            ['keterlambatan' => $keterlambatan]
+        ));
     }
 
     /**

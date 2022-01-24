@@ -44,7 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], func
 	Route::delete('keranjang/{buku}', [KeranjangBukuController::class, 'remove'])->name('list.remove');
 	Route::put('keranjang', [KeranjangBukuController::class, 'update'])->name('list.update');
 
-	Route::get('pembayaran', [PembayaranController::class, 'create'])->name('pembayaran.create');
+	Route::get('pembayaran/{peminjaman}', [PembayaranController::class, 'create'])->name('pembayaran.create');
 	Route::post('pembayaran', [PembayaranController::class, 'store'])->name('pembayaran.store');
 
 	Route::get('pengaturan', [ PengaturanController::class, 'edit' ])->name('pengaturan.edit');

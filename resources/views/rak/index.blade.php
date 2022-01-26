@@ -7,12 +7,13 @@
 
     <div class="mb-8">
     	<div class="block sm:flex items-center md:divide-x md:divide-gray-100 mb-4">
-    		<form class="sm:pr-3 mb-4 sm:mb-0" action="" method="get">
-    			<label for="rak-search" class="sr-only">Search</label>
-    			<div class="mt-1 relative sm:w-64 xl:w-96">
-    				<input type="text" name="q" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" placeholder="Cari Sesuatu">
-    			</div>
-    		</form>
+            <form class="sm:pr-3 mb-4 sm:mb-0" action="" method="get">
+                <label for="rak-search" class="sr-only">Search</label>
+                <div class="mt-1 relative sm:w-64 xl:w-96">
+                    <input type="text" name="cari" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" placeholder="Cari sesuai dan tekan enter.." id="cari-input"  value="{{ $_GET['cari'] ?? '' }}">
+                    <button type="submit" id="cari-button" style="display: none">Cari</button>
+                </div>
+            </form>
     		<div class="flex items-center sm:justify-end w-full">
                 <div class="hidden md:flex pl-2 space-x-1">
                     <span class="p-2.5">Tampilkan</span>

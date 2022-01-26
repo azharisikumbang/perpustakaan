@@ -16,34 +16,34 @@
                     <div>
                         <div class="mb-2">
                             <div class="text-sm font-normal text-gray-500">Nama</div>
-                            <div class="text-base font-semibold text-gray-900">{{ $keanggotaan['nama'] }}</div>
+                            <div class="text-base font-semibold text-gray-900">{{ $anggota['nama'] }}</div>
                         </div>
                         <div class="mb-2">
                             <div class="text-sm font-normal text-gray-500">Jenis Kelamin</div>
-                            <div class="text-base font-semibold text-gray-900">{{ ($keanggotaan['nama'] == 1) ? 'Laki - laki' : 'Perempuan' }}</div>
+                            <div class="text-base font-semibold text-gray-900">{{ ($anggota['nama'] == 1) ? 'Laki - laki' : 'Perempuan' }}</div>
                         </div>
                         <div class="mb-2">
                             <div class="text-sm font-normal text-gray-500">No. Telepon</div>
-                            <div class="text-base font-semibold text-gray-900">{{ $keanggotaan['kontak'] }}</div>
+                            <div class="text-base font-semibold text-gray-900">{{ $anggota['kontak'] }}</div>
                         </div>
                         <div class="mb-2">
                             <div class="text-sm font-normal text-gray-500">Alamat</div>
-                            <div class="text-base font-semibold text-gray-900">{{ $keanggotaan['alamat_pribadi'] }}</div>
+                            <div class="text-base font-semibold text-gray-900">{{ $anggota['alamat_pribadi'] }}</div>
                         </div>
                     </div>
                     <!-- Institusi -->
                     <div>
                         <div class="mb-2">
                             <div class="text-sm font-normal text-gray-500">No. Keanggotaan</div>
-                            <div class="text-base font-semibold text-gray-900">{{ $keanggotaan['nomor_identitas'] }}</div>
+                            <div class="text-base font-semibold text-gray-900">{{ $anggota['kode'] }}</div>
                         </div>
                         <div class="mb-2">
                             <div class="text-sm font-normal text-gray-500">Institusi</div>
-                            <div class="text-base font-semibold text-gray-900">{{ $keanggotaan['institusi'] }}</div>
+                            <div class="text-base font-semibold text-gray-900">{{ $anggota['institusi'] }}</div>
                         </div>
                         <div class="mb-2">
                             <div class="text-sm font-normal text-gray-500">Alamat Institusi</div>
-                            <div class="text-base font-semibold text-gray-900">{{ $keanggotaan['alamat_institusi'] }}</div>
+                            <div class="text-base font-semibold text-gray-900">{{ $anggota['alamat_institusi'] }}</div>
                         </div>
                     </div>
                 </div>

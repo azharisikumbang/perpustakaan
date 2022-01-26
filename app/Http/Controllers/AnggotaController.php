@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateAnggotaRequest;
 use App\Models\Anggota;
 use App\Utils\Paginator;
 
-class KeanggotaanController extends Controller
+class AnggotaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,12 @@ class KeanggotaanController extends Controller
         $perPage = $httpRequestAttributes['limit'] ?? Paginator::OFFSET;
         $orderBy = $httpRequestAttributes['order_by'] ?? 'id';
         $orderAs = $httpRequestAttributes['order_as'] ?? null;
-        $paginated = Anggota::when(
+        $paginated = Anggota::when(isset($httpRequestAttributes['cari']), function($query) use ($httpRequestAttributes) {
+                $term = $httpRequestAttributes['cari'];
+                return $query->where('nama', 'LIKE', "%{$term}%")
+                    ->orWhere('nomor_identitas', 'LIKE', "%{$term}%");
+            })
+            ->when(
             isset($httpRequestAttributes['order_by']),
             Paginator::paginateByOrderAttribute($orderBy, $orderAs
         ))->paginate($perPage);
@@ -28,7 +33,7 @@ class KeanggotaanController extends Controller
         // @TODO : remove query string for next and previous links if not available
         $paginated->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
 
-        return view('keanggotaan.index', $paginated->toArray());
+        return view('anggota.index', $paginated->toArray());
     }
 
     /**
@@ -38,7 +43,7 @@ class KeanggotaanController extends Controller
      */
     public function create()
     {
-        return view('keanggotaan.create');
+        return view('anggota.create');
     }
 
     /**
@@ -52,57 +57,57 @@ class KeanggotaanController extends Controller
         Anggota::create($request->validated());
 
         return redirect()
-            ->route('keanggotaan.index')
+            ->route('anggota.index')
             ->with(['status' => 1, 'messages' => 'Data berhasil disimpan.']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Anggota  $keanggotaan
+     * @param  \App\Models\Anggota $anggotum
      * @return \Illuminate\Http\Response
      */
-    public function show(Anggota $keanggotaan)
+    public function show(Anggota $anggotum)
     {
-        return view('keanggotaan.show', ['keanggotaan' => $keanggotaan->attributesToArray()]);
+        return view('anggota.show', ['anggota' => $anggotum->attributesToArray()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Anggota  $keanggotaan
+     * @param  \App\Models\Anggota $anggotum
      * @return \Illuminate\Http\Response
      */
-    public function edit(Anggota $keanggotaan)
+    public function edit(Anggota $anggotum)
     {
-        return view('keanggotaan.edit', $keanggotaan->attributesToArray());
+        return view('anggota.edit', $anggotum->attributesToArray());
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateAnggotaRequest  $request
-     * @param  \App\Models\Anggota  $keanggotaan
+     * @param  \App\Models\Anggota $anggotum
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAnggotaRequest $request, Anggota $keanggotaan)
+    public function update(UpdateAnggotaRequest $request, Anggota $anggotum)
     {
-        $keanggotaan->update($request->validated());
+        $anggotum->update($request->validated());
 
         return redirect()
-            ->route('keanggotaan.edit', ['keanggotaan' => $keanggotaan->id])
+            ->route('anggota.edit', ['anggota' => $anggotum->id])
             ->with(['status' => 1, 'messages' => 'Data berhasil diperbaharui.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Anggota  $keanggotaan
+     * @param  \App\Models\Anggota $anggotum
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Anggota $keanggotaan)
+    public function destroy(Anggota $anggotum)
     {
-         $isDeleted = $keanggotaan->delete();
+         $isDeleted = $anggotum->delete();
 
         if (!$isDeleted) {
             return response()->json([

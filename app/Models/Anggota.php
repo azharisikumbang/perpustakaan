@@ -11,7 +11,7 @@ class Anggota extends Model
 
     protected $table = 'anggota';
 
-    protected $fillable = ['nama', 'nomor_identitas', 'institusi', 'alamat_institusi', 'alamat_pribadi', 'jenis_kelamin', 'kontak', 'auth'];
+    protected $fillable = ['nama', 'kode', 'institusi', 'alamat_institusi', 'alamat_pribadi', 'jenis_kelamin', 'kontak', 'auth'];
 
     public function peminjaman()
     {

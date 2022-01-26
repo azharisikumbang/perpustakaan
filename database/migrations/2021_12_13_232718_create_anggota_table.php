@@ -16,12 +16,12 @@ class CreateAnggotaTable extends Migration
         Schema::create('anggota', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('nomor_identitas', 128); // nim nip
+            $table->string('kode'); // nim nip
             $table->text('institusi');
             $table->text('alamat_institusi');
             $table->text('alamat_pribadi');
             $table->char('jenis_kelamin', 1)->default(0); // ISO 5218
-            $table->string('kontak', 16)->nullable();
+            $table->string('kontak', 32)->nullable();
             $table->unsignedBigInteger('auth')->nullable();
             $table->timestamps();
         });

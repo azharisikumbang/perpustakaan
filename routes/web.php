@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\CekAnggotaController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KeanggotaanController;
 use App\Http\Controllers\KeranjangBukuController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PencarianController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\RakController;
@@ -35,7 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], func
 	Route::resource('buku', BukuController::class);
 	Route::resource('rak', RakController::class)->except(['show']);
 	Route::resource('peminjaman', PeminjamanController::class);
-	Route::resource('keanggotaan', KeanggotaanController::class);
+	Route::resource('anggota', AnggotaController::class);
 
 	Route::get('pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
 	Route::post('pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
@@ -47,11 +48,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], func
 	Route::get('pembayaran/{peminjaman}', [PembayaranController::class, 'create'])->name('pembayaran.create');
 	Route::post('pembayaran', [PembayaranController::class, 'store'])->name('pembayaran.store');
 
+	Route::get('pencarian', [ PencarianController::class, 'index' ])->name('pencarian.index');
+	Route::get('pencarian/redirect', [ PencarianController::class, 'show' ])->name('pencarian.show');
+	
 	Route::get('pengaturan', [ PengaturanController::class, 'edit' ])->name('pengaturan.edit');
 	Route::put('pengaturan', [ PengaturanController::class, 'update' ])->name('pengaturan.update');
 
 	// should be move to api routes
 	Route::post('anggota/cek', [ CekAnggotaController::class, '__invoke' ])->name('anggota.cek');
+
+	
 });
 
 require __DIR__.'/auth.php';

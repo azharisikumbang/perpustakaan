@@ -18,7 +18,7 @@ class PeminjamanFactory extends Factory
             'tanggal_peminjaman' => $this->faker->dateTime(),
             'lama_peminjaman' => $this->faker->randomDigitNotZero(),
             'tanggal_pengembalian' => null,
-            'nominal_denda' => $this->faker->randomNumber(4)
+            'nominal_denda' => $this->faker->randomNumber(4),
         ];
     }
 }

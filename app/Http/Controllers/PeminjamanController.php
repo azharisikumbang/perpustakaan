@@ -24,6 +24,10 @@ class PeminjamanController extends Controller
         $orderAs = $httpRequestAttributes['order_as'] ?? null;
         $listRak = Peminjaman::with('peminjam')
             ->select('id', 'kode', 'tanggal_peminjaman', 'lama_peminjaman', 'peminjam')
+            ->when(isset($httpRequestAttributes['cari']), function($query) use($httpRequestAttributes) {
+                $term = $httpRequestAttributes['cari'];
+                return $query->where('kode', 'LIKE', "%{$term}%");
+            })
             ->when(
                 isset($httpRequestAttributes['order_by']),
                 Paginator::paginateByOrderAttribute($orderBy, $orderAs)

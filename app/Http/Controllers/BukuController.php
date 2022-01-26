@@ -22,10 +22,17 @@ class BukuController extends Controller
         $perPage = $httpRequestAttributes['limit'] ?? Paginator::OFFSET;
         $orderBy = $httpRequestAttributes['order_by'] ?? 'id';
         $orderAs = $httpRequestAttributes['order_as'] ?? null;
-        $paginated = Buku::with('rak')->when(
-            isset($httpRequestAttributes['order_by']),
-            Paginator::paginateByOrderAttribute($orderBy, $orderAs
-        ))->paginate($perPage);
+        $paginated = Buku::with('rak')
+            ->when(isset($httpRequestAttributes['cari']), function($query) use($httpRequestAttributes) {
+                $term = $httpRequestAttributes['cari'];
+                return $query->where('kode', 'LIKE', "%{$term}%")
+                    ->orWhere('isbn', 'LIKE', "%{$term}%")
+                    ->orWhere('judul', 'LIKE', "%{$term}%");
+            })
+            ->when(
+                isset($httpRequestAttributes['order_by']),
+                Paginator::paginateByOrderAttribute($orderBy, $orderAs
+            ))->paginate($perPage);
 
         // @TODO : remove query string for next and previous links if not available
         $paginated->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);

@@ -16,12 +16,12 @@ class CreatePembayaranTable extends Migration
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
             $table->dateTime('tanggal_pembayaran')->useCurrent();
-            $table->decimal('nominal')->default(0);
+            $table->decimal('nominal', 14, 0, true)->default(0);
             $table->unsignedBigInteger('peminjaman_id');
             $table->timestamps();
         });
     }
-
+ 
     /**
      * Reverse the migrations.
      *

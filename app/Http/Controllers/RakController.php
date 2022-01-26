@@ -20,12 +20,16 @@ class RakController extends Controller
         $perPage = $httpRequestAttributes['limit'] ?? Paginator::OFFSET;
         $orderBy = $httpRequestAttributes['order_by'] ?? 'id';
         $orderAs = $httpRequestAttributes['order_as'] ?? null;
-        $listRak = Rak::when(
-            isset($httpRequestAttributes['order_by']),
-            Paginator::paginateByOrderAttribute(
-                $orderBy, 
-                $orderAs)
-            )->paginate($perPage);
+        $listRak = Rak::when(isset($httpRequestAttributes['cari']), function($query) use ($httpRequestAttributes) {
+                $term = $httpRequestAttributes['cari'];
+                return $query->where('kode', 'LIKE', "%{$term}%")
+                    ->orWhere('alias', 'LIKE', "%{$term}%");
+            })
+            ->when(isset($httpRequestAttributes['order_by']),
+                Paginator::paginateByOrderAttribute(
+                    $orderBy, 
+                    $orderAs)
+                )->paginate($perPage);
 
         $listRak->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
 

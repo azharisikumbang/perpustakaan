@@ -26,7 +26,7 @@
 				</div>
 				<div class="p-4 text-right">
 					<div class="space-x-2 justify-end flex">
-                        <button @click="checkoutBookList" class="text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center">
+                        <button @click="checkoutBookList" class="text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center" id="keranjang-ajukan-btn">
                             Ajukan
                         </button>
                         <button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center" @click="open = false">
@@ -39,11 +39,15 @@
     </div>
     <script type="text/javascript">
         function checkoutBookList(e){
-            e.target.innerHTML = "Mengajukan...";
-            e.target.classList.add('cursor-not-allowed', 'italic', 'opacity-50');
-
             const listBookWrapper = document.getElementById('list-book-cart');
             let body = []
+
+            if (listBookWrapper.children[0].dataset.keranjangTotal < 1) {
+                return;
+            }
+
+            e.target.innerHTML = "Mengajukan...";
+            e.target.classList.add('cursor-not-allowed', 'italic', 'opacity-50');
 
             for (var i = listBookWrapper.children.length - 1; i >= 0; i--) {
                 body[i] = { 
@@ -59,7 +63,6 @@
                 .catch(error => {
                     e.target.innerHTML = "Ajukan";
                     e.target.classList.remove('cursor-not-allowed', 'italic', 'opacity-50');
-                    // @todo : render alert from here
                 });
         }
     </script>

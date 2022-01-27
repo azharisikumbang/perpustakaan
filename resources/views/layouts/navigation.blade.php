@@ -46,10 +46,10 @@
                                 </div>
                             </div>
                        @empty
-                            <div class="text-center my-4 no-data">Tidak ada data.</div>
+                            <div class="text-center my-4 no-data" data-keranjang-total="0">Tidak ada data.</div>
                        @endforelse
                     @else
-                        <div class="text-center my-4 no-data">Tidak ada data.</div>
+                        <div class="text-center my-4 no-data" data-keranjang-total="0">Tidak ada data.</div>
                     @endif
                     </x-slot>
                 </x-cart>

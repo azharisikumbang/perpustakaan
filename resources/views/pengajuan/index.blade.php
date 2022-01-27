@@ -12,21 +12,21 @@
            <div class="border rounded border-gray-300 w-full mb-4 p-8 shadow" id="checkout-user-form" >
                <div class="grid grid-cols-12 gap-4">
                    <div class="col-span-9">
-                       <input type="text" name="user" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Ketik nomor keanggotaan" x-model="user" :value="user" required="">
+                       <input type="text" name="user" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Ketik nomor anggota" x-model="user" :value="user" required="">
                    </div>
                    <div class="flex w-full col-span-3">
                        <button type="button" @click="getUserData($data)" class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center">
                            Cek Keanggotaan
                        </button>
                        <!-- @TODO : create registration feature -->
-                       <a href="{{ route('keanggotaan.create') }}" class="text-center text-white bg-yellow-500 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center ml-2">
+                       <a href="{{ route('anggota.create') }}" class="text-center text-white bg-yellow-500 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center ml-2">
                            Daftar Baru
                        </a>
                    </div>
                </div>
                <div x-show="showUserDetails">
                     <div x-show="userNotFound" class="mt-4 px-2 text-red-500">
-                        <i>* Anggota yang anda maksud tidak ditemukan. Silahkan coba lagi atau <a class="underline" href="{{ route('keanggotaan.create') }}">Daftarkan</a>.</i>
+                        <i>* Anggota yang anda maksud tidak ditemukan. Silahkan coba lagi atau <a class="underline" href="{{ route('anggota.create') }}">Daftarkan</a>.</i>
                     </div>
                     <div x-show="!userNotFound">
                         <div class="mt-4 px-2 text-muted">

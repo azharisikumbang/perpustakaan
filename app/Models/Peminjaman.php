@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Peminjaman extends Model
 {
-    use HasFactory, SearchableTrait;
+    use HasFactory;
 
     const LENGTH = 20;
 
     protected $table = 'peminjaman';
 
-    protected $appends = ['total_buku', 'searchable_type']; 
+    protected $appends = ['total_buku']; 
 
     protected $fillable = ['kode', 'tanggal_peminjaman', 'lama_peminjaman', 'tanggal_pengembalian', 'nominal_denda', 'peminjam'];
 

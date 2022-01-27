@@ -21,7 +21,7 @@ class CreatePeminjamanTable extends Migration
             $table->dateTime('tanggal_peminjaman');
             $table->unsignedTinyInteger('lama_peminjaman')->default(0);
             $table->dateTime('tanggal_pengembalian')->nullable()->default(null);
-            $table->unsignedDecimal('nominal_denda', 10, 0)->default(0);
+            $table->unsignedDecimal('nominal_denda', 16, 0)->default(0);
             $table->unsignedBigInteger('peminjam');
             $table->timestamps();
         });

@@ -2,6 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Anggota;
+use App\Models\Buku;
+use App\Models\Pembayaran;
+use App\Models\Peminjaman;
+use App\Models\Rak;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +18,38 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+    	// data rak dan data buku
+    	Rak::factory()->count(20)->create()->each(function ($rak) {
+        	$buku = Buku::factory()->count(20)->make();
+        	$rak->buku()->saveMany($buku);
+        });
+
+    	// data anggota dan peminjamannya
+    	Anggota::factory()->count(100)->create()->each(function ($anggota) {
+    		$has = rand(0, 1);
+    		if ($has) {
+    			$peminjaman = Peminjaman::factory()->count(rand(1, 10))->make();
+    			$anggota->peminjaman()->saveMany($peminjaman);
+    		}
+    	});
+
+    	// lengkapi data peminjaman - buku
+    	$buku = Buku::all();
+    	Peminjaman::all()->each(function($peminjaman) use ($buku) {
+    		$peminjaman->buku()->attach(
+    			$buku->random(rand(1, 3))->pluck('id')->toArray(),
+    			['jumlah' => rand(1, 5)]
+    		);
+    	});
+
+    	$peminjaman = Peminjaman::all()->each(function($peminjaman) {
+    		if (null != $peminjaman->tanggal_pengembalian) {
+    			$pembayaran = Pembayaran::factory()->make([
+    				'nominal' => $peminjaman->nominal_denda * $peminjaman->lama_peminjaman
+    			]);
+
+    			$peminjaman->pembayaran()->save($pembayaran);
+    		}
+    	});
     }
 }

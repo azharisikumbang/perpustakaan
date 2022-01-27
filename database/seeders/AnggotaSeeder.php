@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Anggota;
+use App\Models\Peminjaman;
 use Illuminate\Database\Seeder;
 
 class AnggotaSeeder extends Seeder
@@ -14,6 +15,12 @@ class AnggotaSeeder extends Seeder
      */
     public function run()
     {
-        Anggota::factory()->count(20)->create();
+        Anggota::factory()->count(20)->create()->each(function ($anggota) {
+    		$has = rand(0, 1);
+    		if ($has) {
+    			$peminjaman = Peminjaman::factory()->count(rand(1, 10))->make();
+    			$anggota->peminjaman()->saveMany($peminjaman);
+    		}
+    	});
     }
 }

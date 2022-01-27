@@ -13,12 +13,15 @@ class PeminjamanFactory extends Factory
      */
     public function definition()
     {
+        $denda = [1000, 2000, 3000, 4000, 5000];
+        $tanggal_pengembalian = (rand(0, 2) > 1) ? $this->faker->dateTimeBetween("-7 days") : null;
+
         return [
             'kode' => sprintf("%s/PINJAM/%s", date('Y/m'), str_pad(rand(0, 99999), 6, '0', STR_PAD_LEFT)),
-            'tanggal_peminjaman' => $this->faker->dateTime(),
-            'lama_peminjaman' => $this->faker->randomDigitNotZero(),
-            'tanggal_pengembalian' => null,
-            'nominal_denda' => $this->faker->randomNumber(4),
+            'tanggal_peminjaman' => $this->faker->dateTimeThisYear(),
+            'lama_peminjaman' => rand(7, 10),
+            'tanggal_pengembalian' => $tanggal_pengembalian,
+            'nominal_denda' => $denda[rand(0, 4)],
         ];
     }
 }

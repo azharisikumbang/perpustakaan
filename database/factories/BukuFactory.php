@@ -17,11 +17,11 @@ class BukuFactory extends Factory
         return [
             'kode' => strtoupper($this->faker->bothify('???-?##-###-' . time())),
             'isbn' => $this->faker->isbn13(),
-            'judul' => $this->faker->sentence(),
+            'judul' => strtoupper($this->faker->sentence()),
             'penerbit' => $this->faker->company(),
             'pengarang' => $this->faker->name(),
             'tahun_terbit' => $this->faker->year(),
-            'stok' => $this->faker->randomNumber(3),
+            'stok' => rand(0, 1000),
             'tanggal_masuk' => $this->faker->date()
         ];
     }

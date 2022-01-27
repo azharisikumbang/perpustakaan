@@ -15,7 +15,10 @@ class BukuSeeder extends Seeder
      */
     public function run()
     {
-        Rak::factory()->count(20)->create();
-        Buku::factory()->count(20)->create(['rak_id' => rand(1, 20)]);
+        // Rak::factory()->count(20)->create();
+
+        // for ($i = 0; $i < 100; $i++) {
+        //     Buku::factory()->create(['rak_id' => rand(1, 20)]);
+        // }
     }
 }

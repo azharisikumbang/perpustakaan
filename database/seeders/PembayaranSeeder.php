@@ -13,6 +13,6 @@ class PembayaranSeeder extends Seeder
      */
     public function run()
     {
-        //
+
     }
 }

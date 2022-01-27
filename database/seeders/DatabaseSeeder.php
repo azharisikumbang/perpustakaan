@@ -7,6 +7,7 @@ use App\Models\Buku;
 use App\Models\Pembayaran;
 use App\Models\Peminjaman;
 use App\Models\Rak;
+use App\Services\HitungKeterlambatanService;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -44,8 +45,11 @@ class DatabaseSeeder extends Seeder
 
     	$peminjaman = Peminjaman::all()->each(function($peminjaman) {
     		if (null != $peminjaman->tanggal_pengembalian) {
+                $hitungKeterlambatanService = new HitungKeterlambatanService();
+                $keterlambatan = $hitungKeterlambatanService->hitung($peminjaman, new \DateTime($peminjaman->tanggal_pengembalian));
+
     			$pembayaran = Pembayaran::factory()->make([
-    				'nominal' => $peminjaman->nominal_denda * $peminjaman->lama_peminjaman
+    				'nominal' => $peminjaman->nominal_denda * $keterlambatan
     			]);
 
     			$peminjaman->pembayaran()->save($pembayaran);

@@ -37,7 +37,7 @@ class PengajuanPengembalianTest extends TestCase
         $peminjam = Anggota::factory()->create();
         $listBuku = Buku::all();
         $this->post(route('pengajuan.store'), [
-            'user' => $peminjam->nomor_identitas,
+            'user' => $peminjam->kode,
             'buku_item_total' => $buku_item_total,
             'buku_total' => 3
         ]);
@@ -59,6 +59,7 @@ class PengajuanPengembalianTest extends TestCase
     public function pengembalian_hanya_untuk_peminjaman_yang_belum_dikembalikan()
     {
     	$this->signIn();
+        $this->withoutExceptionHandling();
 
         $pengaturan = Pengaturan::factory()->create();
         $rak = Rak::factory()->create();
@@ -74,7 +75,7 @@ class PengajuanPengembalianTest extends TestCase
         $peminjam = Anggota::factory()->create();
         $listBuku = Buku::all();
         $this->post(route('pengajuan.store'), [
-            'user' => $peminjam->nomor_identitas,
+            'user' => $peminjam->kode,
             'buku_item_total' => $buku_item_total,
             'buku_total' => 3
         ]);
@@ -110,7 +111,7 @@ class PengajuanPengembalianTest extends TestCase
         $peminjam = Anggota::factory()->create();
         $listBuku = Buku::all();
         $this->post(route('pengajuan.store'), [
-            'user' => $peminjam->nomor_identitas,
+            'user' => $peminjam->kode,
             'buku_item_total' => $buku_item_total,
             'buku_total' => 3
         ]);

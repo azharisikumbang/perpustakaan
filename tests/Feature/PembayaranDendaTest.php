@@ -31,7 +31,7 @@ class PembayaranDendaTest extends TestCase
 
         $peminjam = Anggota::factory()->create();
         $this->post(route('pengajuan.store'), [
-            'user' => $peminjam->nomor_identitas,
+            'user' => $peminjam->kode,
             'buku_item_total' => $buku_item_total,
             'buku_total' => 3
         ]);
@@ -150,7 +150,7 @@ class PembayaranDendaTest extends TestCase
         $peminjam = Anggota::factory()->create();
         $listBuku = Buku::all();
         $this->post(route('pengajuan.store'), [
-            'user' => $peminjam->nomor_identitas,
+            'user' => $peminjam->kode,
             'buku_item_total' => $buku_item_total,
             'buku_total' => 3
         ]);

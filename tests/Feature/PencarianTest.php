@@ -14,13 +14,15 @@ class PencarianTest extends TestCase
     /** @test */
     public function pencarian_harus_mempunyai_pagination()
     {
-        $query = '0';
-        $kriteria = ['all'];
+        $this->markTestIncomplete();
+        // $query = '0';
+        // $kriteria = ['all'];
 
-        $service = new PencarianService();
-        $result = $service->byModel($query, $kriteria);
+        // $service = new PencarianService();
+        // $result = $service->byModel($query, $kriteria);
 
-        dd($result);
+        // dd($result);
+
     }
     
 }

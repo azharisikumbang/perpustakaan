@@ -24,7 +24,7 @@ class StorePengajuanRequest extends FormRequest
     public function rules()
     {
         return [
-            'user' => ['required', 'exists:App\Models\Anggota,nomor_identitas'],
+            'user' => ['required', 'exists:App\Models\Anggota,kode'],
             'buku_item_total' => ['required', 'array'],
             'buku_total' => ['required', 'numeric']
         ];

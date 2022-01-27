@@ -20,6 +20,12 @@ class PengajuanController extends Controller
     		return $carry;
     	});
 
+        if ($jumlahBuku < 1) {
+            return redirect()
+                ->route('buku.index')
+                ->with(['status' => 0, 'messages' => 'Jumlah peminjaman minimal 1 buku, silahkan tambahkan terlebih dahulu..']);
+        }
+
     	return view('pengajuan.index', [ 'pengaturan' => $pengaturan->toArray(), 'jumlah_buku' => $jumlahBuku ]);
     }
 
@@ -27,7 +33,7 @@ class PengajuanController extends Controller
     {
     	$validated = $request->validated();
 
-    	$peminjam = Anggota::where(['nomor_identitas' => $validated['user']])->first();
+    	$peminjam = Anggota::where(['kode' => $validated['user']])->first();
     	$bookListService->setPeminjam($peminjam);
 
     	foreach ($validated['buku_item_total'] as $key => $item) {

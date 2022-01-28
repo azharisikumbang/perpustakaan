@@ -5,6 +5,8 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\CekAnggotaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeranjangBukuController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LaporanKeanggotaanController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PencarianController;
@@ -57,7 +59,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], func
 	// should be move to api routes
 	Route::post('anggota/cek', [ CekAnggotaController::class, '__invoke' ])->name('anggota.cek');
 
-	
+	// laporan
+	Route::group(['prefix' =>'laporan'], function() {
+		Route::get('/', [LaporanController::class, 'index'])->name('laporan.index');
+		Route::post('/', [LaporanController::class, 'generate'])->name('laporan.generate');
+		Route::get('keanggotaan', [LaporanKeanggotaanController::class, '__invoke'])->name('laporan.keanggotaan');
+	});
 });
 
 require __DIR__.'/auth.php';

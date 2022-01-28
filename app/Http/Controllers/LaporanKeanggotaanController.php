@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Exports\LaporanKeanggotaanExport;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
+class LaporanKeanggotaanController extends Controller
+{
+    public function __invoke(Request $request)
+    {
+    	return Excel::download(new LaporanKeanggotaanExport(), sprintf('laporan-keanggotaan-%s.xlsx', time()));
+    }
+}

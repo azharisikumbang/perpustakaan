@@ -15,7 +15,7 @@ class AnggotaFactory extends Factory
     {
         return [
             'nama' => $this->faker->name(),
-            'kode' => $this->faker->bothify('?-###'),
+            'kode' => strtoupper($this->faker->bothify('?-###')),
             'institusi' => $this->faker->company(),
             'alamat_institusi' => $this->faker->address(),
             'alamat_pribadi' => $this->faker->address(),

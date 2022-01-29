@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaporanDataBukuExport;
 use App\Exports\LaporanKeanggotaanExport;
+use App\Exports\LaporanPembayaranDendaExport;
+use App\Exports\LaporanPeminjamanExport;
+use App\Exports\LaporanPengembalianExport;
+use App\Utils\LaporanExcelDownloader;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Exception;
 
 class LaporanController extends Controller
 {
@@ -15,6 +21,6 @@ class LaporanController extends Controller
 
     public function generate(Request $request)
     {
-    	return Excel::download(new LaporanKeanggotaanExport($request), sprintf('laporan-keanggotaan-%s.xlsx', time()));
+    	return LaporanExcelDownloader::fromRequest($request);
     }
 }

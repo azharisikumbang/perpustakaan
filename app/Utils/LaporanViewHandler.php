@@ -7,8 +7,8 @@ use Illuminate\Contracts\View\View;
 
 class LaporanViewHandler
 {
-	public static function generateFromTemplate(LaporanExcelInterface $contents) : View
+	public static function generateFromTemplate(LaporanExcelInterface $contents, string $template = 'laporan.base') : View
 	{
-		return view('laporan.base', ['handler' => $contents]);
+		return view($template, ['handler' => $contents]);
 	}
 }

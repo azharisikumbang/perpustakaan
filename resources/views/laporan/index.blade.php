@@ -15,9 +15,10 @@
                         <label class="text-sm font-medium text-gray-900 block mb-2">Tipe Laporan <span class="text-red-500">*</span></label>
                         <select name="tipe" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
                             <option value="keanggotaan">Laporan Keanggotaan Pepustakaan</option>
-                            <option value="buku">Laporan Buku</option>
+                            <option value="data-buku">Laporan Data Buku</option>
                             <option value="peminjaman">Laporan Peminjaman</option>
-                            <option value="denda">Laporan Denda</option>
+                            <option value="pengembalian">Laporan Pengembalian</option>
+                            <option value="pembayaran-denda">Laporan Pembayaran Denda</option>
                         </select>
                     </div>
                     <div class="mb-4 grid grid-cols-2 gap-4">

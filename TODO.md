@@ -7,15 +7,16 @@
 - [x] Implementasi gambar / sambul pada buku (dengan default placeholder)
 - [x] Manajemen setingan default website (misal: masa pinjaman, jumlah maksimal pinjaman, jumlah denda dan sebagainya)
 - [X] Peminjaman
-- [ ] Pengembalian
-- [ ] Pembayaran Denda
-- [ ] Cek Status Peminjaman
-- [ ] Cek Status Pengembalian
-- [ ] Cek Status Denda dan Pembayaran
-- [ ] Cek Stok Buku
-- [ ] Pencarian Buku
+- [X] Pengembalian
+- [X] Pembayaran Denda
+- [X] Cek Status Peminjaman
+- [X] Cek Status Pengembalian
+- [X] Cek Status Denda dan Pembayaran
+- [X] Cek Stok Buku
+- [X] Pencarian Buku
 - [ ] Pemberitahuan Stok Buku Kosong
-- [ ] Laporan Peminjaman
-- [ ] Laporan Pengembalian
-- [ ] Laporan Denda
-- [ ] Laporan Data Buku Tersedia
+- [X] Laporan Peminjaman
+- [X] Laporan Pengembalian
+- [X] Laporan Denda
+- [X] Laporan Data Buku Tersedia
+- [ ] Laporan berdasarkan periode (hari ini, minggun ini, bulan ini, tahun ini, dall)

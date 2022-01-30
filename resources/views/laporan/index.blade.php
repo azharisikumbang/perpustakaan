@@ -34,13 +34,37 @@
                         </div>
                         <div>
                             <label class="text-sm font-medium text-gray-900 block mb-2">Periode <span class="text-red-500">*</span></label>
-                            <select name="periode" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
-                                <option value="0">Semua</option>
-                                <option value="harian">Harian</option>
-                                <option value="mingguan">Mingguan</option>
-                                <option value="bulanan">Bulanan</option>
-                                <option value="tahunan">Tahunan</option>
-                            </select>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <select name="periode_tahun" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                                        <option value="0">-- Tahun --</option>
+                                        <option value="0">-- Semua --</option>
+                                        <?php for ($tahun = date('Y'); $tahun >= 2010; $tahun--) { ?>
+                                        <option value="<?= $tahun ?>"><?= $tahun ?></option>
+                                        <?php } ?>    
+                                    </select>
+                                </div>
+                                <div>
+                                    <select name="periode_bulan" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                                        <option value="0">-- Bulan --</option>
+                                        <option value="0">-- Semua --</option>
+                                        <?php 
+                                            $list_bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                                            foreach ($list_bulan as $key => $bulan) { ?>
+                                        <option value="<?= ($key + 1) ?>"><?= $bulan ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select name="periode_hari" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                                        <option value="0">-- Tanggal --</option>
+                                        <option value="0">-- Semua --</option>
+                                        <?php for ($tanggal = 1; $tanggal <= 31 ; $tanggal++) { ?>
+                                        <option value="{{ $tanggal }}">{{ $tanggal }}</option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-4">

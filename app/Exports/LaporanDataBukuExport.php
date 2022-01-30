@@ -14,12 +14,18 @@ class LaporanDataBukuExport implements FromView
 
 	private int $limit;
 
-	private int $periode;
+	private int $periode_tahun;
+
+	private int $periode_bulan;
+
+	private int $periode_hari;
 
 	public function __construct(Request $request)
 	{
 		$this->limit = (int) $request->get('limit', 0);
-		$this->periode = (int) $request->get('periode', 0);
+		$this->periode_tahun = (int) $request->get('periode_tahun', 0);
+		$this->periode_bulan = (int) $request->get('periode_bulan', 0);
+		$this->periode_hari = (int) $request->get('periode_hari', 0);
 	}
 
 	/**
@@ -27,6 +33,9 @@ class LaporanDataBukuExport implements FromView
      */
 	public function view(): View
 	{
-		return LaporanViewHandler::generateFromTemplate(new LaporanDataBukuService($this->limit), 'laporan.base-nested');
+		return LaporanViewHandler::generateFromTemplate(
+			new LaporanDataBukuService($this->limit, $this->periode_tahun, $this->periode_bulan, $this->periode_hari), 
+			'laporan.base-nested'
+		);
 	}
 }

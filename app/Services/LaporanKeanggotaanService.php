@@ -14,11 +14,20 @@ class LaporanKeanggotaanService implements LaporanExcelInterface
 
 	private ?Collection $data = null;
 
-	private int $limit = 0;
+	private int $limit;
 
-	public function __construct(int $limit = 0)
+	private int $year;
+
+	private int $month;
+
+	private int $date;
+
+	public function __construct(int $limit = 0, int $year = 0, int $month = 0, int $date = 0)
 	{
 		$this->limit = $limit;
+		$this->year = $year;
+		$this->month = $month;
+		$this->date = $date;
 	}
 
 	public function getData() : Collection
@@ -62,6 +71,9 @@ class LaporanKeanggotaanService implements LaporanExcelInterface
 				->leftJoin('peminjaman', 'anggota.id', '=', 'peminjaman.peminjam')
 				->leftJoin('pembayaran', 'peminjaman.id', '=', 'pembayaran.peminjaman_id')
 				->groupBy('anggota.id')
+				->when($this->year, fn($builder) => $builder->whereYear('anggota.created_at', '=', $this->year))
+				->when($this->month, fn($builder) => $builder->whereMonth('anggota.created_at', '=', $this->month))
+				->when($this->date, fn($builder) => $builder->whereDay('anggota.created_at', '=', $this->date))
 				->when($this->limit, fn($builder) => $builder->limit($this->limit))
 				->get();
 

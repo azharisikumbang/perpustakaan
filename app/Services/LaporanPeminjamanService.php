@@ -13,14 +13,20 @@ class LaporanPeminjamanService implements LaporanExcelInterface
 
 	private ?Collection $data = null;
 
-	private int $limit = 0;
+	private int $limit;
 
-	private ?string $periode = null;
+	private int $year;
 
-	public function __construct(int $limit = 0, ?string $periode = null)
+	private int $month;
+
+	private int $date;
+
+	public function __construct(int $limit = 0, int $year = 0, int $month = 0, int $date = 0)
 	{
 		$this->limit = $limit;
-		$this->limit = $limit;
+		$this->year = $year;
+		$this->month = $month;
+		$this->date = $date;
 	}
 
 	public function getTitle() : string
@@ -63,31 +69,18 @@ class LaporanPeminjamanService implements LaporanExcelInterface
 
 	private function provideData() : Collection
 	{
-		$peminjaman = Peminjaman::select(DB::raw('
-				peminjaman.id,
-				peminjaman.kode as kode_peminjaman,
-				peminjaman.tanggal_peminjaman,
-				peminjaman.lama_peminjaman,
-				peminjaman.tanggal_pengembalian,
-				peminjaman.nominal_denda,
-				anggota.kode as kode_anggota,
-				anggota.nama as nama_anggota,
-				buku.kode as kode_buku,
-				buku.judul as judul_buku,
-				buku.isbn as isbn_buku,
-				peminjaman_buku.jumlah as jumlah_peminjaman_buku,
-				rak.kode as kode_rak,
-				rak.alias as alias_rak,
-				pembayaran.tanggal_pembayaran as tanggal_pembayaran,
-				pembayaran.nominal as nominal_pembayaran'
+		$peminjaman = Peminjaman::select(DB::raw('peminjaman.id, peminjaman.kode as kode_peminjaman, peminjaman.tanggal_peminjaman, peminjaman.lama_peminjaman, peminjaman.tanggal_pengembalian, peminjaman.nominal_denda, anggota.kode as kode_anggota, anggota.nama as nama_anggota, buku.kode as kode_buku, buku.judul as judul_buku, buku.isbn as isbn_buku, peminjaman_buku.jumlah as jumlah_peminjaman_buku, rak.kode as kode_rak, rak.alias as alias_rak, pembayaran.tanggal_pembayaran as tanggal_pembayaran, pembayaran.nominal as nominal_pembayaran'
 			))
 			->leftJoin('anggota', 'anggota.id', '=', 'peminjaman.peminjam')
+			->leftJoin('pembayaran', 'pembayaran.peminjaman_id', '=', 'peminjaman.id')
 			->leftJoin('peminjaman_buku', 'peminjaman_buku.peminjaman_id', '=', 'peminjaman.id')
 			->leftJoin('buku', 'buku.id', '=', 'peminjaman_buku.buku_id')
 			->leftJoin('rak', 'buku.rak_id', '=', 'rak.id')					
-			->leftJoin('pembayaran', 'pembayaran.peminjaman_id', '=', 'peminjaman.id')
-			->orderBy('peminjaman.id', 'desc')
+			->when($this->year, fn($builder) => $builder->whereYear('peminjaman.tanggal_peminjaman', '=', $this->year))
+			->when($this->month, fn($builder) => $builder->whereMonth('peminjaman.tanggal_peminjaman', '=', $this->month))
+			->when($this->date, fn($builder) => $builder->whereDay('peminjaman.tanggal_peminjaman', '=', $this->date))
 			->when($this->limit, fn($builder) => $builder->limit($this->limit))
+			->orderBy('peminjaman.id', 'desc')
 			->get();
 
 		return $this->restructureData($peminjaman);

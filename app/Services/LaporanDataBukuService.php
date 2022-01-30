@@ -14,11 +14,20 @@ class LaporanDataBukuService implements LaporanExcelInterface
 
 	private ?Collection $data = null;
 
-	private int $limit = 0;
+	private int $limit;
 
-	public function __construct(int $limit = 0)
+	private int $year;
+
+	private int $month;
+
+	private int $date;
+
+	public function __construct(int $limit = 0, int $year = 0, int $month = 0, int $date = 0)
 	{
 		$this->limit = $limit;
+		$this->year = $year;
+		$this->month = $month;
+		$this->date = $date;
 	}
 
 	public function getData() : Collection
@@ -52,8 +61,12 @@ class LaporanDataBukuService implements LaporanExcelInterface
 
 	private function provideData() : Collection
 	{
-		$collection = Buku::with('rak')->when($this->limit, fn($builder) => $builder->limit($this->limit))
-				->get();
+		$collection = Buku::with('rak')
+			->when($this->year, fn($builder) => $builder->whereYear('tanggal_masuk', '=', $this->year))
+			->when($this->month, fn($builder) => $builder->whereMonth('tanggal_masuk', '=', $this->month))
+			->when($this->date, fn($builder) => $builder->whereDay('tanggal_masuk', '=', $this->date))
+			->when($this->limit, fn($builder) => $builder->limit($this->limit))
+			->get();
 
 		return $this->generateDataAttributes($collection);
 	}

@@ -13,14 +13,20 @@ class LaporanPengembalianService implements LaporanExcelInterface
 
 	private ?Collection $data = null;
 
-	private int $limit = 0;
+	private int $limit;
 
-	private ?string $periode = null;
+	private int $year;
 
-	public function __construct(int $limit = 0, ?string $periode = null)
+	private int $month;
+
+	private int $date;
+
+	public function __construct(int $limit = 0, int $year = 0, int $month = 0, int $date = 0)
 	{
 		$this->limit = $limit;
-		$this->limit = $limit;
+		$this->year = $year;
+		$this->month = $month;
+		$this->date = $date;
 	}
 
 	public function getTitle() : string
@@ -68,6 +74,9 @@ class LaporanPengembalianService implements LaporanExcelInterface
 			->leftJoin('pembayaran', 'pembayaran.peminjaman_id', '=', 'peminjaman.id')
 			->orderBy('peminjaman.id', 'desc')
 			->where('peminjaman.tanggal_pengembalian', '!=', '')
+			->when($this->year, fn($builder) => $builder->whereYear('peminjaman.tanggal_pengembalian', '=', $this->year))
+			->when($this->month, fn($builder) => $builder->whereMonth('peminjaman.tanggal_pengembalian', '=', $this->month))
+			->when($this->date, fn($builder) => $builder->whereDay('peminjaman.tanggal_pengembalian', '=', $this->date))
 			->when($this->limit, fn($builder) => $builder->limit($this->limit))
 			->get();
 

@@ -29,6 +29,6 @@ class LaporanDataBukuTest extends TestCase
         $this->generateFakeData();
 
         $listBuku = (new LaporanDataBukuService(20))->getData();
-        dd($listBuku->toArray());
+        $this->assertCount(20, $listBuku);
     }
 }

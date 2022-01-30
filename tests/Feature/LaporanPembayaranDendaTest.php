@@ -65,7 +65,9 @@ class LaporanPembayaranDendaTest extends TestCase
 
         $listPeminjaman = (new LaporanPembayaranDendaService())->getData();
         
-        dd($listPeminjaman);
+        $jumlahPembayaran = Pembayaran::all()->count();
+
+        $this->assertEquals($jumlahPembayaran, $listPeminjaman->count());
     }
     
 }

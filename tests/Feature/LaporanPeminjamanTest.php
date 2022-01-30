@@ -63,8 +63,10 @@ class LaporanPeminjamanTest extends TestCase
     {
         $this->generateFakeData();
 
-        $listPeminjaman = (new LaporanPeminjamanService(20))->getData();
-        dd($listPeminjaman->toArray());
+        $listPeminjaman = (new LaporanPeminjamanService())->getData();
+
+        $jumlahPeminjaman = Peminjaman::all()->count();
+        $this->assertEquals($jumlahPeminjaman, $listPeminjaman->count());
     }
     
 }

@@ -20,8 +20,6 @@ class LaporanKeanggotaanTest extends TestCase
 
     protected function generateFakeData() : void
     {
-        parent::setUp();
-
         Anggota::factory()->count($this->expectedTotalAnggota)->create()->each(function ($anggota) {
             $has = rand(0, 1);
             if ($has) {

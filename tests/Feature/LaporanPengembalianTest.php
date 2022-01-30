@@ -67,6 +67,9 @@ class LaporanPengembalianTest extends TestCase
         $listPeminjaman->each(function($peminjaman) {
             $this->assertNotNull($peminjaman['tanggal_pengembalian']);
         });
+
+        $pengembalian = Peminjaman::where('tanggal_pengembalian', '!=', '')->get()->count();
+        $this->assertEquals($pengembalian, $listPeminjaman->count());
     }
     
 }

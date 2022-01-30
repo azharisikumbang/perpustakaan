@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PencarianService
 {
-	public function cari(string $q, array $kriteria)
+	public function cari(string $q, array $kriteria = ['all'])
 	{
 		$unions = [];
 		$query = false;

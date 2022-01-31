@@ -43,7 +43,7 @@
                                     <th class="w-4 p-4 text-left text-xs font-medium text-gray-500 uppercase">No</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Kode Buku</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Judul</th>
-                                    <!-- <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Penulis</th> -->
+                                    <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Klasifikasi Buku</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Posisi Rak</th>
                                     <th></th>
                                 </tr>
@@ -60,9 +60,9 @@
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $buku['judul'] }}
                                     </td>
-                                    <!-- <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                        {{ $buku['pengarang'] }}
-                                    </td> -->
+                                    <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                                        {{ $buku['ddc']['kode'] }} - {{ $buku['ddc']['klasifikasi'] }}
+                                    </td>
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $buku['rak']['kode'] }} - {{ $buku['rak']['alias'] }}
                                     </td>

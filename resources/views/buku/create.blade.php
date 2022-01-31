@@ -38,7 +38,7 @@
                             <input type="number" name="tahun_terbit" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" size="4" required="">
                         </div>
                     </div>
-                    <div class="mb-4 grid grid-cols-3 gap-4">
+                    <div class="mb-4 grid grid-cols-4 gap-4">
                         <div>
                             <label class="text-sm font-medium text-gray-900 block mb-2">Tanggal Masuk Buka<span class="text-red-500">*</span></label>
                             <input type="date" name="tanggal_masuk" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" value="{{ date('Y-m-d') }}" required="">
@@ -53,8 +53,17 @@
                             </select>
                         </div>
                         <div>
+                            <label class="text-sm font-medium text-gray-900 block mb-2">Kode DDC <span class="text-red-500">*</span></label>
+                            <select name="ddc_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
+                                <option value="">-- Pilih Kode DDC --</option>
+                                @foreach($listDDC as $ddc)
+                                    <option value="{{ $ddc['id'] }}">{{ $ddc['kode'] }} - {{ $ddc['klasifikasi'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
                             <label class="text-sm font-medium text-gray-900 block mb-2">Stok <span class="text-red-500">*</span></label>
-                            <input type="number" name="stok" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
+                            <input type="number" name="stok" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="" value="1">
                         </div>
                     </div>
                     <div class="mb-4">

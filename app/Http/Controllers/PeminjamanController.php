@@ -45,7 +45,9 @@ class PeminjamanController extends Controller
      */
     public function create()
     {
-        return view('peminjaman.create');
+        return redirect()
+            ->route('buku.index')
+            ->with(['status' => 0, 'messages' => 'Silahkan dipilih buku yang akan dipinjam terlebih dahulu.']);
     }
 
     /**

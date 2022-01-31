@@ -15,7 +15,10 @@
                        <div class="py-2 flex justify-left">
                             <div class="mr-2">Kriteria : </div>
                             <div class="mr-2">
-                                <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="all" <?php echo (count($kriteria) >= 3 || in_array('all', $kriteria)) ? 'checked' : '' ?>> Semua
+                                <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="all" <?php echo (count($kriteria) >= 3 || in_array('all', $kriteria)) || (!isset($_GET['kriteria'])) ? 'checked' : '' ?>> Semua
+                            </div>
+                            <div class="mr-2">
+                                <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="ddc" <?php echo (in_array('ddc', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Data DDC
                             </div>
                             <div class="mr-2">
                                 <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="buku" <?php echo (in_array('buku', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Data Buku
@@ -42,6 +45,7 @@
                             <tr>
                                 <th class="w-4 p-4 text-left text-xs font-medium text-gray-500 uppercase">No</th>
                                 <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
+                                <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Tipe Pencarian</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -53,7 +57,10 @@
                                         <?= $no++; ?>
                                     </td>
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                        {{ $item->kode }}
+                                        {{ $item->display }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                                        {{ $item->tipe_display }}
                                     </td>
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         <a class="underline italic text-red-500" href="{{ route('pencarian.show', array_merge(['kode' => $item->kode], [ 'kriteria' => $kriteria ])) }}">Lihat Detail</a>

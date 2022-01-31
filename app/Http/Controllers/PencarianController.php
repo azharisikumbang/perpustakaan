@@ -21,7 +21,7 @@ class PencarianController extends Controller
     public function show(Request $request)
     {
         $listKriteria = $request->has('kriteria') ? $request->get('kriteria') : [];
-        $listKriteria = in_array('all', $listKriteria) ? array_merge($listKriteria, ['peminjaman', 'anggota', 'buku']) : $listKriteria;
+        $listKriteria = in_array('all', $listKriteria) ? array_merge($listKriteria, ['peminjaman', 'ddc', 'anggota', 'buku']) : $listKriteria;
         $listKriteria = array_unique($listKriteria);
 
         foreach ($listKriteria as $kriteria) {

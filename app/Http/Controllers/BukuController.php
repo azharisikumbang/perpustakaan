@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Rak;
 use App\Utils\Paginator;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class BukuController extends Controller
         $perPage = $httpRequestAttributes['limit'] ?? Paginator::OFFSET;
         $orderBy = $httpRequestAttributes['order_by'] ?? 'id';
         $orderAs = $httpRequestAttributes['order_as'] ?? null;
-        $paginated = Buku::with('rak')
+        $paginated = Buku::with(['rak', 'ddc'])
             ->when(isset($httpRequestAttributes['cari']), function($query) use($httpRequestAttributes) {
                 $term = $httpRequestAttributes['cari'];
                 return $query->where('kode', 'LIKE', "%{$term}%")
@@ -48,6 +49,7 @@ class BukuController extends Controller
     public function create()
     {
         $listRak = Rak::all()->toArray();
+        $listDDC = DDC::all()->toArray();
 
         if (count($listRak) < 1) {
             return redirect()
@@ -55,7 +57,7 @@ class BukuController extends Controller
                 ->with(['status' => 0, 'messages' => 'Anda perlu menambahkan data rak terlebih dahulu.']);
         }
 
-        return view('buku.create', ['listRak' => $listRak]);
+        return view('buku.create', ['listRak' => $listRak, 'listDDC' => $listDDC]);
     }
 
     /**

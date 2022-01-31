@@ -25,6 +25,7 @@ class CreateBukuTable extends Migration
             $table->unsignedInteger("stok");
             $table->date("tanggal_masuk");
             $table->foreignId('rak_id')->contrained('rak')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('ddc_id')->contrained('ddc')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

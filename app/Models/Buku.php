@@ -11,11 +11,16 @@ class Buku extends Model
 
     protected $table = 'buku';
 
-    protected $fillable = ['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id', 'sampul'];
+    protected $fillable = ['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id', 'sampul', 'ddc_id'];
 
     public function rak()
     {
     	return $this->belongsTo(Rak::class);
+    }
+
+    public function ddc()
+    {
+        return $this->belongsTo(DDC::class, 'ddc_id');
     }
 
     public function peminjaman() 

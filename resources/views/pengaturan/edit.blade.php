@@ -36,15 +36,15 @@
                 </div>
                 <div class="mb-2">
                     <div class="text-base font-semibold text-gray-900">Lama Pinjaman</div>
-                    <div class="text-sm font-normal text-gray-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</div>
+                    <div class="text-sm font-normal text-gray-500">Lama peminjaman diberikan untuk membatasi jumlah hari maksimal peminjaman.</div>
                 </div>
                 <div class="mb-2">
                     <div class="text-base font-semibold text-gray-900">Jumlah Pinjaman</div>
-                    <div class="text-sm font-normal text-gray-500">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit ess.</div>
+                    <div class="text-sm font-normal text-gray-500">Jumlah peminjaman untuk memberikan batasat jumlah buku yang bisa dipinjam dalam sekali peminjaman.</div>
                 </div>
                 <div class="mb-2">
                     <div class="text-base font-semibold text-gray-900">Nominal Denda</div>
-                    <div class="text-sm font-normal text-gray-500">Cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum sint occaecat cupidatat.</div>
+                    <div class="text-sm font-normal text-gray-500">Nominal denda per hari keterlambatan pada setiap perminjaman yang melewati batas pengembalian.</div>
                 </div>
             </div>
         </div>

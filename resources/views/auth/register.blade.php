@@ -2,7 +2,10 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <div class="flex justify-between items-center">
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    <div class="pl-4 text-xl w-80 font-bold text-white">PERPUSTAKAAN BALAI PENDIDIKAN DAN PELATIHAN KEAGAMAAN PADANG</div>
+                </div>
             </a>
         </x-slot>
 

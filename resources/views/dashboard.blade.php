@@ -4,4 +4,8 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+
+    <div class="mb-8">
+    	<p>Selamat datang {{ auth()->user()->name }}.</p>
+    </div>
 </x-app-layout>

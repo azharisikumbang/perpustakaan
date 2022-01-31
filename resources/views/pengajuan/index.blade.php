@@ -15,9 +15,7 @@
                        <input type="text" name="user" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Ketik nomor anggota" x-model="user" :value="user" required="">
                    </div>
                    <div class="flex w-full col-span-3">
-                       <button type="button" @click="getUserData($data)" class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center">
-                           Cek Keanggotaan
-                       </button>
+                       <button type="button" @click="getUserData($data, this)" class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center" x-text="button_text"></button>
                        <!-- @TODO : create registration feature -->
                        <a href="{{ route('anggota.create') }}" class="text-center text-white bg-yellow-500 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center ml-2">
                            Daftar Baru
@@ -48,7 +46,7 @@
                             <div>
                                 <div class="mb-2">
                                     <div class="text-sm font-normal text-gray-500">No. Keanggotaan</div>
-                                    <div class="text-base font-semibold text-gray-900" x-text="fetchedUser['nomor_identitas']"></div>
+                                    <div class="text-base font-semibold text-gray-900" x-text="fetchedUser['kode']"></div>
                                 </div>
                                 <div class="mb-2">
                                     <div class="text-sm font-normal text-gray-500">Institusi</div>
@@ -142,12 +140,13 @@
                 showUserDetails : false,
                 userNotFound : false,
                 fetchedUser: {
-                    nomor_identitas: '',
+                    kode: '',
                     nama: '',
                     institusi: '',
                     kontak: ''
                 },
                 jumlah: "<?= $jumlah_buku ?>",
+                button_text: 'Cek Keanggotaan',
                 increment() {
                     this.jumlah++;
                 }, 
@@ -169,19 +168,23 @@
                         });
 
                 },
-                getUserData(e) {
-                    axios.post('/admin/anggota/cek', {'nomor_identitas': this.user})
+                getUserData(data, event) {
+                    this.button_text = 'Mencari...';
+
+                    axios.post('/admin/anggota/cek', {'kode': this.user})
                         .then(response => {
                             this.showUserDetails = true;
                             this.userNotFound = false;
-                            this.fetchedUser.nomor_identitas = response.data.data.nomor_identitas;
+                            this.fetchedUser.kode = response.data.data.kode;
                             this.fetchedUser.nama = response.data.data.nama;
                             this.fetchedUser.institusi = response.data.data.institusi;
                             this.fetchedUser.kontak = response.data.data.kontak;
+                            this.button_text = "Cari Keanggotaan...";
                         })
                         .catch(error => {
                             this.showUserDetails = true;
                             this.userNotFound = true;
+                            this.button_text = "Cari Keanggotaan...";
                         });
                 }
             }

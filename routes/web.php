@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\CekAnggotaController;
+use App\Http\Controllers\DDCController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeranjangBukuController;
 use App\Http\Controllers\LaporanController;
@@ -27,8 +28,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-	session()->flush();
-    return view('welcome');
+	return redirect()->route('login');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], function() {
@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], func
 	Route::resource('rak', RakController::class)->except(['show']);
 	Route::resource('peminjaman', PeminjamanController::class);
 	Route::resource('anggota', AnggotaController::class);
+	Route::resource('ddc', DDCController::class);
 
 	Route::get('pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
 	Route::post('pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');

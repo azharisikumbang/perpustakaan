@@ -24,7 +24,7 @@ class CekAnggotaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nomor_identitas' => 'required|exists:App\Models\Anggota,nomor_identitas'
+            'kode' => 'required|exists:App\Models\Anggota,kode'
         ];
     }
 }

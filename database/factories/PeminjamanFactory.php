@@ -14,7 +14,7 @@ class PeminjamanFactory extends Factory
     public function definition()
     {
         $denda = [1000, 2000, 3000, 4000, 5000];
-        $tanggal_peminjaman = $this->faker->dateTimeThisYear();
+        $tanggal_peminjaman = $this->faker->dateTimeBetween('-3 years');
         $lama_peminjaman = rand(7, 10);
         $batas_pengembalian = new \DateTime($tanggal_peminjaman->format('Y-m-d H:i:s'));
         $batas_pengembalian->modify(sprintf("+%s days", $lama_peminjaman + 3));

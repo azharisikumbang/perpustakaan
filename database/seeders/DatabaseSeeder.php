@@ -37,10 +37,13 @@ class DatabaseSeeder extends Seeder
     	// lengkapi data peminjaman - buku
     	$buku = Buku::all();
     	Peminjaman::all()->each(function($peminjaman) use ($buku) {
-    		$peminjaman->buku()->attach(
-    			$buku->random(rand(1, 3))->pluck('id')->toArray(),
-    			['jumlah' => rand(1, 5)]
-    		);
+            for ($i = 0; $i < rand(1, 5); $i++) {
+                $jumlah = rand(1, 3);
+                $peminjaman->buku()->attach(
+                    $buku->random(1)->pluck('id')->toArray(),
+                    ['jumlah' => $jumlah]
+                );
+            }  		
     	});
 
     	$peminjaman = Peminjaman::all()->each(function($peminjaman) {

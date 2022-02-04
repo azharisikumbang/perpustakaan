@@ -3,6 +3,7 @@
 		<div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
 			<div class="flex-1 px-3 bg-white divide-y space-y-1">
 				<ul class="space-y-2 pb-2">
+					<!-- Dashboard -->
 					<li>
 						<a href="{{ route('dashboard') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -13,6 +14,8 @@
 							<span class="ml-3">Dashboard</span>
 						</a>
 					</li>
+					@hasanyrole('pelanggan|admin')
+					<!-- Pencarian -->
 					<li>
 						<a href="{{ route('pencarian.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -22,6 +25,7 @@
 							<span class="ml-3">Pencarian</span>
 						</a>
 					</li>
+					<!-- Peminjaman -->
 					<li>
 						<a href="{{ route('peminjaman.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -32,6 +36,9 @@
 							<span class="ml-3">Peminjaman</span>
 						</a>
 					</li>
+					@endhasanyrole
+					@role('admin')
+					<!-- Rak -->
 					<li>
 						<a href="{{ route('rak.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -42,6 +49,7 @@
 							<span class="ml-3">Daftar Rak</span>
 						</a>
 					</li>
+					<!-- Buku -->
 					<li>
 						<a href="{{ route('ddc.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -55,6 +63,7 @@
 							<span class="ml-3">Data DDC</span>
 						</a>
 					</li>
+					<!-- DDC -->
 					<li>
 						<a href="{{ route('buku.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -68,6 +77,7 @@
 							<span class="ml-3">Data Buku</span>
 						</a>
 					</li>
+					<!-- Keanggotaan -->
 					<li>
 						<a href="{{ route('anggota.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -78,6 +88,9 @@
 							<span class="ml-3">Keanggotaan</span>
 						</a>
 					</li>
+					@endrole
+					@hasanyrole('admin|kepala')
+					<!-- Laporan -->
 					<li>
 						<a href="{{ route('laporan.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -94,6 +107,9 @@
 							<span class="ml-3">Laporan</span>
 						</a>
 					</li>
+					@endhasanyrole
+					@role('admin')
+					<!-- Pengaturan -->
 					<li>
 						<a href="{{ route('pengaturan.edit') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
 							<!-- icon -->
@@ -104,6 +120,7 @@
 							<span class="ml-3">Pengaturan</span>
 						</a>
 					</li>
+					@endrole
 				</ul>
 			</div>
 		</div>

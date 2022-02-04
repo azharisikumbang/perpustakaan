@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="mb-8">
-        <form action="{{ route('keanggotaan.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('anggota.store') }}" method="post" enctype="multipart/form-data">
             <div class="grid grid-cols-3 gap-4">
                 <div class="col-span-2">
                     @csrf

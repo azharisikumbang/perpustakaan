@@ -9,6 +9,7 @@ use App\Models\Rak;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class BaseDataSeeder extends Seeder
 {
@@ -145,10 +146,35 @@ class BaseDataSeeder extends Seeder
 
         Anggota::factory()->count(20)->create();
 
-        User::factory()->create([
+        Role::create([
+            'name' => 'admin',
+            'guard_name' => 'web'
+        ]);
+
+        Role::create([
+            'name' => 'pelanggan',
+            'guard_name' => 'web'
+        ]);
+
+        Role::create([
+            'name' => 'kepala',
+            'guard_name' => 'web'
+        ]);
+
+        $admin = User::factory()->create([
             'name' => 'Administrator',
             'email' => 'admin@administrator.local',
             'password' => Hash::make('admin')
         ]);
+
+        $admin->assignRole('admin');
+
+        $kepala = User::factory()->create([
+            'name' => 'Kepala',
+            'email' => 'kepala@administrator.local',
+            'password' => Hash::make('kepala')
+        ]);
+
+        $kepala->assignRole('kepala');
     }
 }

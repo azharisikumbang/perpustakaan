@@ -32,8 +32,16 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'configured']], function() {
-	// @TODO : merapikan route dashboard
+
+	// route pelanggan
 	Route::get('/dashboard', [DashboardController::class, '__invoke'])->name('dashboard');
+
+	// route kepala
+
+	// route administrator
+
+
+	// @TODO : merapikan route dashboard
 
 	Route::resource('buku', BukuController::class);
 	Route::resource('rak', RakController::class)->except(['show']);

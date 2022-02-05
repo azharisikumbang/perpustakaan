@@ -6,10 +6,10 @@ use App\Models\Anggota;
 use App\Models\Buku;
 use App\Models\DDC;
 use App\Models\Rak;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class BaseDataSeeder extends Seeder
 {
@@ -146,19 +146,10 @@ class BaseDataSeeder extends Seeder
 
         Anggota::factory()->count(20)->create();
 
-        Role::create([
-            'name' => 'admin',
-            'guard_name' => 'web'
-        ]);
-
-        Role::create([
-            'name' => 'pelanggan',
-            'guard_name' => 'web'
-        ]);
-
-        Role::create([
-            'name' => 'kepala',
-            'guard_name' => 'web'
+        Role::factory()->createMany([
+            [ 'name' => Role::ANGGOTA, 'guard_name' => 'web' ],
+            [ 'name' => Role::ADMINISTRATOR, 'guard_name' => 'web' ],
+            [ 'name' => Role::KEPALA, 'guard_name' => 'web' ],
         ]);
 
         $admin = User::factory()->create([
@@ -167,7 +158,7 @@ class BaseDataSeeder extends Seeder
             'password' => Hash::make('admin')
         ]);
 
-        $admin->assignRole('admin');
+        $admin->assignRole(Role::ADMINISTRATOR);
 
         $kepala = User::factory()->create([
             'name' => 'Kepala',
@@ -175,6 +166,6 @@ class BaseDataSeeder extends Seeder
             'password' => Hash::make('kepala')
         ]);
 
-        $kepala->assignRole('kepala');
+        $kepala->assignRole(Role::KEPALA);
     }
 }

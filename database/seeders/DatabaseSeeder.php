@@ -21,18 +21,22 @@ class DatabaseSeeder extends Seeder
     {
     	// data rak dan data buku
     	Rak::factory()->count(20)->create()->each(function ($rak) {
-        	$buku = Buku::factory()->count(20)->make();
+        	$buku = Buku::factory()->count(20)->make(['ddc_id' => 1]);
         	$rak->buku()->saveMany($buku);
         });
 
     	// data anggota dan peminjamannya
-    	Anggota::factory()->count(100)->create()->each(function ($anggota) {
-    		$has = rand(0, 1);
-    		if ($has) {
-    			$peminjaman = Peminjaman::factory()->count(rand(1, 10))->make();
-    			$anggota->peminjaman()->saveMany($peminjaman);
-    		}
-    	});
+    	// Anggota::factory()->count(100)->create()->each(function ($anggota) {
+    	// 	$has = rand(0, 1);
+    	// 	if ($has) {
+    	// 		$peminjaman = Peminjaman::factory()->count(rand(1, 10))->make();
+    	// 		$anggota->peminjaman()->saveMany($peminjaman);
+    	// 	}
+    	// });
+
+        $anggota = Anggota::find(3);
+        $peminjaman = Peminjaman::factory()->count(20)->make();
+        $anggota->peminjaman()->saveMany($peminjaman);
 
     	// lengkapi data peminjaman - buku
     	$buku = Buku::all();

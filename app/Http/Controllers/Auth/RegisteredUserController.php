@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anggota;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -45,6 +46,13 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $anggota = Anggota::make([
+            'nama' => $request->name,
+            'kode' => 'X-' . time() // @TODO : implemen auto generate kode
+        ]); 
+
+        $user->anggota()->save($anggota);
 
         $user->assignRole(Role::ANGGOTA);
 

@@ -22,6 +22,7 @@
                     </svg>
                     <div class="ml-1 mr-2">{{ date('d/m/Y H:i:s T') }}</div>
                 </div>
+                @unlessrole('anggota')
                 <x-cart>
                     <x-slot name="trigger">
                         <button class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto mr-6">
@@ -56,6 +57,7 @@
                     @endif
                     </x-slot>
                 </x-cart>
+                @endunlessrole
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">

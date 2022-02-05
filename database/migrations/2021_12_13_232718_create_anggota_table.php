@@ -17,9 +17,9 @@ class CreateAnggotaTable extends Migration
             $table->id();
             $table->string('nama');
             $table->string('kode'); // nim nip
-            $table->text('institusi');
-            $table->text('alamat_institusi');
-            $table->text('alamat_pribadi');
+            $table->text('institusi')->nullable();
+            $table->text('alamat_institusi')->nullable();
+            $table->text('alamat_pribadi')->nullable();
             $table->char('jenis_kelamin', 1)->default(0); // ISO 5218
             $table->string('kontak', 32)->nullable();
             $table->unsignedBigInteger('auth')->nullable();

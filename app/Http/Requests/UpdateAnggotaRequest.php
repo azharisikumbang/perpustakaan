@@ -25,8 +25,7 @@ class UpdateAnggotaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama' => 'required', 
-            'nomor_identitas' => ['required', Rule::unique('anggota')->ignore($this->keanggotaan->nomor_identitas, 'nomor_identitas')],
+            'nama' => 'required',
             'institusi' => 'required', 
             'alamat_institusi' => 'required', 
             'alamat_pribadi' => 'required', 

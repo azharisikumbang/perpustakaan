@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDDCRequest;
 use App\Http\Requests\UpdateDDCRequest;
 use App\Models\DDC;
+use App\Models\Role;
 use App\Utils\Paginator;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,10 @@ class DDCController extends Controller
         // @TODO : remove query string for next and previous links if not available
         $paginated->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
 
-        return view('ddc.index', $paginated->toArray());
+        return view('ddc.index', array_merge(
+            $paginated->toArray(), 
+            [ 'is_administrator' => auth()->user()->hasRole(Role::ADMINISTRATOR) ]
+        ));
     }
 
     /**
@@ -74,7 +78,11 @@ class DDCController extends Controller
     {   
         $listBuku = $ddc->buku()->paginate($request->get('limit', 10));
 
-        return view('ddc.show', array_merge(['ddc' => $ddc->toArray()], ['list_buku' => $listBuku->toArray()]));
+        return view('ddc.show', [
+            'ddc' => $ddc->toArray(), 
+            'list_buku' => $listBuku->toArray(),
+            'is_administrator' => auth()->user()->hasRole(Role::ADMINISTRATOR)
+        ]);
     }
 
     /**

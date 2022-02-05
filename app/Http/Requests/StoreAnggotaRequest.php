@@ -25,7 +25,7 @@ class StoreAnggotaRequest extends FormRequest
     {
         return [ 
             'nama' => 'required', 
-            'nomor_identitas' => 'required|unique:App\Models\Anggota,nomor_identitas', 
+            'kode' => 'required|unique:App\Models\Anggota,kode', 
             'institusi' => 'required', 
             'alamat_institusi' => 'required', 
             'alamat_pribadi' => 'required', 

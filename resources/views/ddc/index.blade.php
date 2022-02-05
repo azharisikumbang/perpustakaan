@@ -27,10 +27,12 @@
                         <option value="{{ secure_url(route('ddc.index', ['limit' => 100 ])) }}" <?= ($per_page == 100) ? 'selected' : '' ?>>100</option>
                     </select>
                 </div>
+                @if($is_administrator)
                 <a href="{{ route('ddc.create') }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">
                     <svg class="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                     Tambah Data Klasifikasi DDC
                 </a>
+                @endif
             </div>
         </div>
         <div class="flex flex-col">
@@ -62,6 +64,7 @@
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $ddc['jumlah'] }}
                                     </td>
+                                    @if($is_administrator)
                                     <td class="p-4 whitespace-nowrap" x-data="{ deleteOpen: false }">
                                         <div class="space-x-2 justify-end flex">
                                             <a href="{{ route('ddc.edit', ['ddc' => $ddc['id']]) }}" class="text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center">
@@ -96,6 +99,7 @@
                                             </div>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 @empty
                                 <tr>

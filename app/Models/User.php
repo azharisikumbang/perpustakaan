@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Peminjaman::class, 'peminjam');
     }
+
+    public function anggota() 
+    {
+        return $this->hasOne(Anggota::class, 'auth');
+    }
 }

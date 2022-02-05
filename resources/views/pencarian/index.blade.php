@@ -14,20 +14,22 @@
                        <input type="text" name="q" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Ketik kata kunci.." required="" value="{{ $_GET['q'] ?? '' }}">
                        <div class="py-2 flex justify-left">
                             <div class="mr-2">Kriteria : </div>
+                            @role('administrator')
                             <div class="mr-2">
                                 <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="all" <?php echo (count($kriteria) >= 3 || in_array('all', $kriteria)) || (!isset($_GET['kriteria'])) ? 'checked' : '' ?>> Semua
                             </div>
+                            <div class="mr-2">
+                                <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="peminjaman" <?php echo (in_array('peminjaman', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Data Peminjaman
+                            </div>
+                            <div class="mr-2">
+                                <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="anggota" <?php echo (in_array('anggota', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Data Keanggotaan
+                            </div>
+                            @endrole
                             <div class="mr-2">
                                 <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="ddc" <?php echo (in_array('ddc', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Data DDC
                             </div>
                             <div class="mr-2">
                                 <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="buku" <?php echo (in_array('buku', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Data Buku
-                            </div>
-                            <div class="mr-2">
-                                <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="peminjaman" <?php echo (in_array('peminjaman', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Peminjaman
-                            </div>
-                            <div class="mr-2">
-                                <input type="checkbox" name="kriteria[]" class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" value="anggota" <?php echo (in_array('anggota', $kriteria) || in_array('all', $kriteria)) ? "checked" : ""; ?>> Data Keanggotaan
                             </div>
                        </div>
                    </div>

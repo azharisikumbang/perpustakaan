@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateBukuRequest;
 use App\Models\Buku;
 use App\Models\DDC;
 use App\Models\Rak;
+use App\Models\Role;
 use App\Utils\Paginator;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,7 +39,10 @@ class BukuController extends Controller
         // @TODO : remove query string for next and previous links if not available
         $paginated->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
 
-        return view('buku.index', $paginated->toArray());
+        return view('buku.index', array_merge(
+            $paginated->toArray(), 
+            [ 'is_administrator' => auth()->user()->hasRole(Role::ADMINISTRATOR) ]
+        ));
     }
 
     /**

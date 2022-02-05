@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -29,4 +31,25 @@ class RegistrationTest extends TestCase
         $this->assertAuthenticated();
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
+
+    /** @test */
+    public function registered_user_role_should_be_anggota()
+    {
+        Role::factory()->create([
+            'name' => Role::ANGGOTA,
+            'guard_name' => 'web'
+        ]);
+
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $user = User::first();
+
+        $this->assertTrue($user->hasRole(Role::ANGGOTA));
+    }
+    
 }

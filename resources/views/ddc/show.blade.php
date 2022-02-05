@@ -73,6 +73,7 @@
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $buku['judul'] }}
                                     </td>
+                                    @if($is_administrator)
                                     <td class="p-4 whitespace-nowrap" x-data="{ deleteOpen: false }">
                                         <div class="space-x-2 justify-end flex">
                                             <button class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center" @click="addToBookList" data-buku-id="{{ $buku['id'] }}">
@@ -80,6 +81,7 @@
                                             </button>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 @empty
                                 <tr>
@@ -116,6 +118,7 @@
             </div>
         </div>
     </div>
+    @if($is_administrator)
     <script type="text/javascript">
         function addToBookList(e) {
             const bukuId = e.target.dataset.bukuId;
@@ -214,4 +217,5 @@
             el.innerHTML = alertWrapper.outerHTML
         }
     </script>
+    @endif
 </x-app-layout>

@@ -14,7 +14,7 @@ class PengaturanTest extends TestCase
     /** @test */
     public function it_should_has_a_row_when_see_edit_page()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $response = $this->get('admin/pengaturan');
 
@@ -27,7 +27,7 @@ class PengaturanTest extends TestCase
     /** @test */
     public function it_should_has_valid_data_when_see_edit_page()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $validData = Pengaturan::create([
             'lama_pinjaman' => 10,
@@ -47,7 +47,7 @@ class PengaturanTest extends TestCase
     /** @test */
     public function it_can_update_row()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         Pengaturan::create([
             'lama_pinjaman' => 10,
@@ -77,7 +77,7 @@ class PengaturanTest extends TestCase
     /** @test */
     public function it_cannot_store_data()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $response = $this->post('pengaturan', []);
         $response->assertNotFound();
@@ -88,7 +88,7 @@ class PengaturanTest extends TestCase
     /** @test */
     public function it_cannot_delete_data()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $this->assertDatabaseCount('pengaturan', 0);
 

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Pembayaran;
 use App\Models\Peminjaman;
 use App\Models\Rak;
@@ -21,8 +22,9 @@ class LaporanPeminjamanTest extends TestCase
 
     protected function generateFakeData() : void
     {
+        DDC::factory()->create();
         Rak::factory()->count(20)->create()->each(function ($rak) {
-            $buku = Buku::factory()->count(20)->make();
+            $buku = Buku::factory()->count(20)->make(['ddc_id' => 1]);
             $rak->buku()->saveMany($buku);
         });
 

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Peminjaman;
 use App\Models\Pengaturan;
 use App\Models\Rak;
@@ -18,11 +19,11 @@ class PengajuanPeminjamanTest extends TestCase
     /** @test */
     public function stok_buku_yang_dipinjam_tidak_boleh_kosong()
     {
-        $this->signIn();
-        $this->withoutExceptionHandling();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 0]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id,'ddc_id' => $ddc->id, 'stok' => 0]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {
@@ -49,10 +50,11 @@ class PengajuanPeminjamanTest extends TestCase
     /** @test */
     public function jumlah_buku_yang_dipinjam_tidak_boleh_lebih_dari_stok()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 3]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id,'ddc_id' => $ddc->id, 'stok' => 3]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {
@@ -79,11 +81,12 @@ class PengajuanPeminjamanTest extends TestCase
     /** @test */
     public function stok_buku_harus_berkurang_saat_dipinjam()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $pengaturan = Pengaturan::factory()->create();
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 10]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'ddc_id' => $ddc->id, 'stok' => 10]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {
@@ -108,11 +111,12 @@ class PengajuanPeminjamanTest extends TestCase
     /** @test */
     public function peminjaman_tercatat_secara_betul()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $pengaturan = Pengaturan::factory()->create();
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 10]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'ddc_id' => $ddc->id, 'stok' => 10]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {

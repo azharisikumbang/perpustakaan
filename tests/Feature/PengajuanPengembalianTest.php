@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Peminjaman;
 use App\Models\Pengaturan;
 use App\Models\Rak;
@@ -20,12 +21,12 @@ class PengajuanPengembalianTest extends TestCase
     /** @test */
     public function stok_buku_yang_dikembalikan_harus_bertambah()
     {
-        $this->signIn();
-        $this->withoutExceptionHandling();
+        $this->signInAsAdministrator();
 
         $pengaturan = Pengaturan::factory()->create();
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'ddc_id' => $ddc->id, 'stok' => 100]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {
@@ -58,12 +59,12 @@ class PengajuanPengembalianTest extends TestCase
     /** @test */
     public function pengembalian_hanya_untuk_peminjaman_yang_belum_dikembalikan()
     {
-    	$this->signIn();
-        $this->withoutExceptionHandling();
+    	$this->signInAsAdministrator();
 
         $pengaturan = Pengaturan::factory()->create();
+        $ddc = DDC::factory()->create();
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100]);
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'ddc_id' => $ddc->id, 'stok' => 100]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {
@@ -95,11 +96,12 @@ class PengajuanPengembalianTest extends TestCase
     /** @test */
     public function pengembalian_yang_memiliki_keterlambatan_harus_melakukan_pembayaran_terlebih_dahulu()
     {
-    	$this->signIn();
+    	$this->signInAsAdministrator();
 
         $pengaturan = Pengaturan::factory()->create();
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'ddc_id' => $ddc->id, 'stok' => 100]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {

@@ -17,7 +17,7 @@ class HitungKeterlambatanTest extends TestCase
     /** @test */
     public function keterlambatan_harus_sesuai_nominal_seharusnya()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $peminjam = Anggota::factory()->create();
         $peminjaman = Peminjaman::factory()->create([
@@ -42,7 +42,7 @@ class HitungKeterlambatanTest extends TestCase
     /** @test */
     public function keterlambatan_berlaku_sehari_setelah_batas_peminjaman()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $peminjam = Anggota::factory()->create();
         $peminjaman = Peminjaman::factory()->create([

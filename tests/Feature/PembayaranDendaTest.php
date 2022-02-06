@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Peminjaman;
 use App\Models\Pengaturan;
 use App\Models\Rak;
@@ -19,8 +20,9 @@ class PembayaranDendaTest extends TestCase
 	private function createPeminjaman() : Peminjaman
 	{
         $pengaturan = Pengaturan::factory()->create();
+        $ddc = DDC::factory()->create();
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100]);
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100, 'ddc_id' => $ddc->id]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {
@@ -42,8 +44,7 @@ class PembayaranDendaTest extends TestCase
     /** @test */
     public function pengembalian_yang_tidak_memiliki_keterlambatan_harus_tidak_punya_denda()
     {
-    	$this->signIn();
-    	$this->withoutExceptionHandling();
+    	$this->signInAsAdministrator();
         $peminjaman = $this->createPeminjaman();
         $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('Y-m-d H:i:s')]);
         	
@@ -64,8 +65,7 @@ class PembayaranDendaTest extends TestCase
     /** @test */
     public function pembayaran_yang_sudah_dikembalikan_tidak_boleh_dicatat()
     {
-        $this->signIn();
-        $this->withoutExceptionHandling();
+        $this->signInAsAdministrator();
         $peminjaman = $this->createPeminjaman();
         $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('Y-m-d H:i:s')]);
             
@@ -86,7 +86,7 @@ class PembayaranDendaTest extends TestCase
     /** @test */
     public function nominal_pembayaran_harus_sesuai_dengan_nominal_dan_hari_keterlambatan()
     {
-    	$this->signIn();
+    	$this->signInAsAdministrator();
         $peminjaman = $this->createPeminjaman();
         $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('2022-01-01 H:i:s')]);
 
@@ -112,8 +112,7 @@ class PembayaranDendaTest extends TestCase
     /** @test */
     public function pembayaran_yang_tidak_sesuai_nominal_harus_ditolak()
     {
-        $this->signIn();
-        $this->withoutExceptionHandling();
+        $this->signInAsAdministrator();
         $peminjaman = $this->createPeminjaman();
         $peminjaman->update(['lama_peminjaman' => 7, 'tanggal_peminjaman' => date('2022-01-01 H:i:s')]);
 
@@ -134,11 +133,11 @@ class PembayaranDendaTest extends TestCase
     /** @test */
     public function pembayaran_valid_harus_menambah_stok_buku()
     {
-        $this->signIn();
-        $this->withoutExceptionHandling();
+        $this->signInAsAdministrator();
         $pengaturan = Pengaturan::factory()->create();
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'stok' => 100, 'ddc_id' => $ddc->id]);
         $buku_item_total = [];
 
         foreach ($books->toArray() as $book) {

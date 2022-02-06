@@ -14,7 +14,7 @@ class RoleFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'guard_name' => 'web' 
         ];
     }
 }

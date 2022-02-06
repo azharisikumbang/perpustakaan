@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Rak;
 use App\Services\LaporanDataBukuService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,8 +18,9 @@ class LaporanDataBukuTest extends TestCase
 
     protected function generateFakeData() : void
     {
+        DDC::factory()->create();
         Rak::factory()->count($this->expectedTotalSample)->create()->each(function ($rak) {
-            $buku = Buku::factory()->count(100)->make();
+            $buku = Buku::factory()->count(100)->make(['ddc_id' => 1]);
             $rak->buku()->saveMany($buku);
         });
     }

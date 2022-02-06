@@ -204,7 +204,6 @@ class LaporanKeanggotaanTest extends TestCase
     public function perhitungan_atribute_peminjaman_dan_pengembalian_dari_setiap_anggota()
     {   
         $laporanKeanggotaanService = new LaporanKeanggotaanService();
-
         $anggota = Anggota::factory()->create();
 
         // 5 peminjaman 3 pengembalian
@@ -236,7 +235,7 @@ class LaporanKeanggotaanTest extends TestCase
 
         // 1 peminjaman berlangsung
         $peminjaman = Peminjaman::factory()->make([
-            'tanggal_peminjaman' => '2022-01-27 09:00:00',
+            'tanggal_peminjaman' => date('Y-m-d H:i:s'),
             'lama_peminjaman' => 7,
             'tanggal_pengembalian' => null
         ]);

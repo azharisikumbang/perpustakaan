@@ -14,7 +14,9 @@ class DDCFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'kode' => $this->faker->bothify('???'),
+            'klasifikasi' => $this->faker->word(),
+            'jumlah' => rand(10, 100)
         ];
     }
 }

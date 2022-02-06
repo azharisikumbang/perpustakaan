@@ -3,6 +3,7 @@
 namespace Tests\Feature\Peminjaman;
 
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Rak;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -16,11 +17,11 @@ class BookListingTest extends TestCase
     /** @test */
     public function a_book_should_be_store_at_book_listng_cart()
     {
-        $this->signIn();
-        $this->withoutExceptionHandling();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'ddc_id' => $ddc->id]);
 
         $resourceBuku = Buku::with('rak')->first();
         $requestBuku = ['buku' => $resourceBuku->id, 'jumlah' => 1];
@@ -73,10 +74,11 @@ class BookListingTest extends TestCase
     /** @test */
     public function a_book_should_be_merge_with_others_book_at_listing_cart()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id, 'ddc_id' => $ddc->id]);
 
         $books->each(function ($book) {
             $this->postJson('admin/keranjang', ['buku' => $book->id, 'jumlah' => $book->stok - 1]);
@@ -99,7 +101,7 @@ class BookListingTest extends TestCase
     /** @test */
     public function invalid_book_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
         // $this->expectException(\Illuminate\Validation\ValidationException::class);
 
         $response = $this->postJson('admin/keranjang', ['buku' => 1, 'jumlah' => 1]);
@@ -115,10 +117,11 @@ class BookListingTest extends TestCase
     /** @test */
     public function remove_a_book_from_listing_cart_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(3)->create(['rak_id' => $rak->id]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(3)->create(['ddc_id' => $ddc->id, 'rak_id' => $rak->id]);
         $books->each(function ($book) {
             $this->postJson('admin/keranjang', ['buku' => $book->id, 'jumlah' => 2]);
         });
@@ -136,10 +139,11 @@ class BookListingTest extends TestCase
     /** @test */
     public function it_should_be_increment_amount_of_book_when_listed_book_re_added()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(4)->create(['rak_id' => $rak->id]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(4)->create(['ddc_id' => $ddc->id, 'rak_id' => $rak->id]);
 
         $books->each(function ($book) {
             $this->postJson('admin/keranjang', ['buku' => $book->id, 'jumlah' => 2]);
@@ -162,11 +166,11 @@ class BookListingTest extends TestCase
     /** @test */
     public function it_should_can_update_the_book_list_with_batch_data()
     {
-        $this->signIn();
-        $this->withoutExceptionHandling();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
-        $books = Buku::factory()->count(4)->create(['rak_id' => $rak->id]);
+        $ddc = DDC::factory()->create();
+        $books = Buku::factory()->count(4)->create(['ddc_id' => $ddc->id, 'rak_id' => $rak->id]);
 
         $books->each(function ($book) {
             $this->postJson('admin/keranjang', ['buku' => $book->id, 'jumlah' => 2]);

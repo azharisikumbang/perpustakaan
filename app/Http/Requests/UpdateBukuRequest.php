@@ -34,7 +34,8 @@ class UpdateBukuRequest extends FormRequest
             'tahun_terbit' => 'required|size:4',
             'stok' => 'required|integer',
             'tanggal_masuk' => 'required|date',
-            'rak_id' => 'required|exists:App\Models\Rak,id'
+            'rak_id' => 'required|exists:App\Models\Rak,id',
+            'ddc_id' => 'required|exists:App\Models\DDC,id',
         ];
     }
 }

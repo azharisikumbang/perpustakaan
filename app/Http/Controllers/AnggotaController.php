@@ -23,7 +23,7 @@ class AnggotaController extends Controller
         $paginated = Anggota::when(isset($httpRequestAttributes['cari']), function($query) use ($httpRequestAttributes) {
                 $term = $httpRequestAttributes['cari'];
                 return $query->where('nama', 'LIKE', "%{$term}%")
-                    ->orWhere('nomor_identitas', 'LIKE', "%{$term}%");
+                    ->orWhere('kode', 'LIKE', "%{$term}%");
             })
             ->when(
             isset($httpRequestAttributes['order_by']),

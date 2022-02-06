@@ -15,7 +15,7 @@ class ManajemenRakTest extends TestCase
     /** @test */
     public function store_rak_item_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $dataRak = [
         	'kode' => 'A01',
@@ -37,7 +37,7 @@ class ManajemenRakTest extends TestCase
     /** @test */
     public function invalid_store_request_handled_correctly()
     {
-    	$this->signIn();
+    	$this->signInAsAdministrator();
     	$invalidRequest = ['kode' => null];
     	$response = $this->post('/admin/rak', $invalidRequest);
 
@@ -48,7 +48,7 @@ class ManajemenRakTest extends TestCase
     /** @test */
     public function it_can_delete_a_rak_row()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $rak = Rak::factory()->create();
 
@@ -61,7 +61,7 @@ class ManajemenRakTest extends TestCase
     /** @test */
     public function invalid_ids_not_handled_correctly_on_delete()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $response = $this->deleteJson('/admin/rak/1');
         $response->assertNotFound();

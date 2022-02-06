@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Buku;
+use App\Models\DDC;
 use App\Models\Rak;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,10 +16,11 @@ class ManajemenBukuTest extends TestCase
     /** @test */
     public function store_new_book_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
+        DDC::factory()->create();
         $rak = (Rak::factory()->create())->attributesToArray();
-        $buku = (Buku::factory()->make(['rak_id' => $rak['id']]))->attributesToArray();
+        $buku = (Buku::factory()->make([ 'rak_id' => $rak['id'], 'ddc_id' => 1 ]))->attributesToArray();
         $response = $this->post('/admin/buku', $buku);
 
         $this->assertDatabaseHas('buku', [
@@ -30,7 +32,8 @@ class ManajemenBukuTest extends TestCase
             'tahun_terbit' => $buku['tahun_terbit'],
             'stok' => $buku['stok'],
             'tanggal_masuk' => $buku['tanggal_masuk'],
-            'rak_id' => $buku['rak_id']
+            'rak_id' => $buku['rak_id'],
+            'ddc_id' => $buku['ddc_id']
         ]);
         $this->assertDatabaseCount('buku', 1);
         $this->assertDatabaseHas('rak', ['id' => $rak['id'], 'kode' => $rak['kode'], 'alias' => $rak['alias']]);
@@ -44,7 +47,7 @@ class ManajemenBukuTest extends TestCase
     /** @test */
     public function store_invalid_book_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
         $response = $this->post('/admin/buku', [
             'kode' => null,
@@ -56,6 +59,7 @@ class ManajemenBukuTest extends TestCase
             'stok' => null,
             'tanggal_masuk' => null,
             'rak_id' => null,
+            'ddc_id' => null,
         ]);
 
         $this->assertDatabaseCount('buku', 0);
@@ -63,7 +67,7 @@ class ManajemenBukuTest extends TestCase
 
         $response->assertRedirect();
         $response->assertInvalid();
-        $response->assertSessionHasErrors(['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id']);
+        $response->assertSessionHasErrors(['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id', 'ddc_id']);
     }
     
     // @TODO : more case for storing
@@ -71,10 +75,11 @@ class ManajemenBukuTest extends TestCase
     /** @test */
     public function update_a_book_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
+        DDC::factory()->create();
         $rak = Rak::factory()->count(2)->create();
-        $buku = Buku::factory()->create(['rak_id' => 1]);
+        $buku = Buku::factory()->create(['rak_id' => 1, 'ddc_id' => 1]);
 
         $bukuRequest = [
             'kode' => 'A001-002-123456',
@@ -85,7 +90,8 @@ class ManajemenBukuTest extends TestCase
             'tahun_terbit' => 2020,
             'stok' => 100,
             'tanggal_masuk' => date('Y-m-d'),
-            'rak_id' => 2
+            'rak_id' => 2,
+            'ddc_id' => 1
         ];
 
         $response = $this->put("/admin/buku/{$buku->id}", $bukuRequest);
@@ -102,10 +108,11 @@ class ManajemenBukuTest extends TestCase
     /** @test */
     public function update_an_invalid_book_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
+        DDC::factory()->create();
         $rak = Rak::factory()->create();
-        $buku = Buku::factory()->create(['rak_id' => 1]);
+        $buku = Buku::factory()->create(['rak_id' => 1, 'ddc_id' => 1]);
 
         $bukuRequest = [
             'kode' => null,
@@ -116,13 +123,14 @@ class ManajemenBukuTest extends TestCase
             'tahun_terbit' => null,
             'stok' => null,
             'tanggal_masuk' => null,
-            'rak_id' => null
+            'rak_id' => null,
+            'ddc_id' => null
         ];
 
         $response = $this->put("/admin/buku/{$buku->id}", $bukuRequest);
 
         $response->assertInvalid();
-        $response->assertSessionHasErrors(['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id']);
+        $response->assertSessionHasErrors(['kode', 'isbn', 'judul', 'penerbit', 'pengarang', 'tahun_terbit', 'stok', 'tanggal_masuk', 'rak_id', 'ddc_id']);
 
         $this->assertDatabaseCount('rak', 1);
         $this->assertDatabaseCount('buku', 1);
@@ -138,10 +146,11 @@ class ManajemenBukuTest extends TestCase
     /** @test */
     public function delete_a_book_handled_correctly()
     {
-        $this->signIn();
+        $this->signInAsAdministrator();
 
+        DDC::factory()->create();
         $rak = Rak::factory()->create();
-        $buku = Buku::factory()->create(['rak_id' => 1]);
+        $buku = Buku::factory()->create(['rak_id' => 1, 'ddc_id' => 1]);
 
         $response = $this->deleteJson("/admin/buku/{$buku->id}");
 

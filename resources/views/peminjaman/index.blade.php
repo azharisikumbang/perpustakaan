@@ -61,7 +61,7 @@
     									{{ $peminjaman['tanggal_peminjaman'] }}
     								</td>
                                     <td>
-                                        <a class="underline hover:text-red-500" href="{{ route('anggota.show', ['anggotum' => $peminjaman['peminjam']['id'] ]) }}">
+                                        <a class="underline hover:text-red-500" href="{{ route('anggota.show', ['anggota' => $peminjaman['peminjam']['id'] ]) }}">
                                         {{ $peminjaman['peminjam']['nama'] }}</a> ({{ $peminjaman['peminjam']['kode'] }})</td>
                                     <td class="text-center">{{ $peminjaman['total_buku'] }}</td>
     								<td class="p-4 whitespace-nowrap" x-data="{ deleteOpen: false }">

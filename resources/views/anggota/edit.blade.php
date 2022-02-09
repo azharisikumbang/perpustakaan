@@ -6,14 +6,14 @@
     </x-slot>
 
     <div class="mb-8">
-        <form action="{{ route('keanggotaan.update', ['keanggotaan' => $id]) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('anggota.update', ['anggota' => $id]) }}" method="post" enctype="multipart/form-data">
             <div class="grid grid-cols-3 gap-4">
                 <div class="col-span-2">
                     @method('PUT')
                     @csrf
                     <div class="mb-4">
                         <label class="text-sm font-medium text-gray-900 block mb-2">Nomor Keanggotaan <span class="text-red-500">*</span></label>
-                        <input type="text" name="nomor_identitas" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" value="{{ old('nomor_identitas') ?? $nomor_identitas }}">
+                        <input type="text" name="kode" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" value="{{ old('kode') ?? $kode }}">
                     </div>
                     <div class="mb-4">
                         <label class="text-sm font-medium text-gray-900 block mb-2">Nama <span class="text-red-500">*</span></label>
@@ -27,8 +27,8 @@
                         <div>
                             <label class="text-sm font-medium text-gray-900 block mb-2">Jenis Kelamin <span class="text-red-500">*</span></label>
                             <select name="jenis_kelamin" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
-                                <option value="1" {{ ((old('jenis_kelamin') ?? $jenis_kelamin) == '1' ? 'selected' : '')  }}>Laki - Laki</option>
-                                <option value="2" {{ ((old('jenis_kelamin') ?? $jenis_kelamin) == '2' ? 'selected' : '')  }}>Wanita</option>
+                                <option value="1" <?= ((old('jenis_kelamin') ?? $jenis_kelamin) == '1' ? 'selected' : '') ?>>Laki - Laki</option>
+                                <option value="2" <?= ((old('jenis_kelamin') ?? $jenis_kelamin) == '2' ? 'selected' : '') ?>>Wanita</option>
                             </select>
                         </div>
                     </div>

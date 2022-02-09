@@ -12,7 +12,7 @@
                     @csrf
                     <div class="mb-4">
                         <label class="text-sm font-medium text-gray-900 block mb-2">Nomor Keanggotaan <span class="text-red-500">*</span></label>
-                        <input type="text" name="nomor_identitas" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                        <input type="text" name="kode" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
                     </div>
                     <div class="mb-4">
                         <label class="text-sm font-medium text-gray-900 block mb-2">Nama <span class="text-red-500">*</span></label>

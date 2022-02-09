@@ -28,7 +28,9 @@ class AnggotaController extends Controller
             ->when(
             isset($httpRequestAttributes['order_by']),
             Paginator::paginateByOrderAttribute($orderBy, $orderAs
-        ))->paginate($perPage);
+        ))
+        ->orderBy('id', 'desc')
+        ->paginate($perPage);
 
         // @TODO : remove query string for next and previous links if not available
         $paginated->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
@@ -64,50 +66,50 @@ class AnggotaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Anggota $anggotum
+     * @param  \App\Models\Anggota $anggota
      * @return \Illuminate\Http\Response
      */
-    public function show(Anggota $anggotum)
+    public function show(Anggota $anggota)
     {
-        return view('anggota.show', ['anggota' => $anggotum->attributesToArray()]);
+        return view('anggota.show', ['anggota' => $anggota->attributesToArray()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Anggota $anggotum
+     * @param  \App\Models\Anggota $anggota
      * @return \Illuminate\Http\Response
      */
-    public function edit(Anggota $anggotum)
+    public function edit(Anggota $anggota)
     {
-        return view('anggota.edit', $anggotum->attributesToArray());
+        return view('anggota.edit', $anggota->attributesToArray());
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateAnggotaRequest  $request
-     * @param  \App\Models\Anggota $anggotum
+     * @param  \App\Models\Anggota $anggota
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAnggotaRequest $request, Anggota $anggotum)
+    public function update(UpdateAnggotaRequest $request, Anggota $anggota)
     {
-        $anggotum->update($request->validated());
+        $anggota->update($request->validated());
 
         return redirect()
-            ->route('anggota.edit', ['anggota' => $anggotum->id])
+            ->route('anggota.edit', ['anggota' => $anggota->id])
             ->with(['status' => 1, 'messages' => 'Data berhasil diperbaharui.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Anggota $anggotum
+     * @param  \App\Models\Anggota $anggota
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Anggota $anggotum)
+    public function destroy(Anggota $anggota)
     {
-         $isDeleted = $anggotum->delete();
+         $isDeleted = $anggota->delete();
 
         if (!$isDeleted) {
             return response()->json([

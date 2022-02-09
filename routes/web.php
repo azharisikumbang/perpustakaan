@@ -64,16 +64,25 @@ Route::group(['middleware' => ['auth', 'configured']], function() {
 		});
 
 		Route::group([ 'middleware' => ['role:administrator'] ], function() {
+			
 			Route::resource('buku', BukuController::class)->except(['index', 'show']);
 			Route::resource('ddc', DDCController::class)->except(['index', 'show']);
 			Route::resource('rak', RakController::class)->except(['show']);
 			Route::resource('peminjaman', PeminjamanController::class);
-			Route::resource('anggota', AnggotaController::class);
+
+			// anggota
+			Route::post('anggota/cek', [ CekAnggotaController::class, '__invoke' ])->name('anggota.cek');
+			Route::get('anggota', [AnggotaController::class, 'index'])->name('anggota.index');
+			Route::get('anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');
+			Route::post('anggota', [AnggotaController::class, 'store'])->name('anggota.store');
+			Route::get('anggota/{anggota}', [AnggotaController::class, 'show'])->name('anggota.show');
+			Route::get('anggota/{anggota}/edit', [AnggotaController::class, 'edit'])->name('anggota.edit');
+			Route::put('anggota/{anggota}', [AnggotaController::class, 'update'])->name('anggota.update');
+			Route::delete('anggota/{anggota}', [AnggotaController::class, 'destroy'])->name('anggota.destroy');
+			// Route::resource('anggota', AnggotaController::class);
 
 			Route::get('pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
 			Route::post('pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
-
-			Route::post('anggota/cek', [ CekAnggotaController::class, '__invoke' ])->name('anggota.cek');
 
 			Route::get('pengaturan', [ PengaturanController::class, 'edit' ])->name('pengaturan.edit');
 			Route::put('pengaturan', [ PengaturanController::class, 'update' ])->name('pengaturan.update');

@@ -10,11 +10,11 @@
             @csrf
             @method('PUT')
             <div class="mb-4">
-                <label class="text-sm font-medium text-gray-900 block mb-2">Kode Rak <span class="text-red-500">*</span></label>
+                <label class="text-sm font-medium text-gray-900 block mb-2">Lemari <span class="text-red-500">*</span></label>
                 <input type="text" name="kode" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" value="{{ old('kode') ?? $rak['kode'] }}">
             </div>
             <div class="mb-4">
-                <label class="text-sm font-medium text-gray-900 block mb-2">Alias / Nama Rak</label>
+                <label class="text-sm font-medium text-gray-900 block mb-2">Nomor Rak</label>
                 <input type="text" name="alias" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" value="{{ old('alias') ?? $rak['alias'] }}">
             </div>
             <div class="mb-4">

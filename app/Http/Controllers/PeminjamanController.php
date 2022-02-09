@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePeminjamanRequest;
 use App\Http\Requests\UpdatePeminjamanRequest;
 use App\Models\Peminjaman;
+use App\Services\BookListService;
 use App\Services\HitungKeterlambatanService;
 use App\Utils\Paginator;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,9 @@ class PeminjamanController extends Controller
             ->when(
                 isset($httpRequestAttributes['order_by']),
                 Paginator::paginateByOrderAttribute($orderBy, $orderAs)
-            )->paginate($perPage);
+            )
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
 
         $listRak->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
 
@@ -43,11 +46,21 @@ class PeminjamanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(BookListService $service)
     {
+        $jumlahBuku = array_reduce($service->getAllBookList()['list-buku'], function($carry, $item) {
+            $carry += $item['jumlah'];
+            return $carry;
+        });
+
+        if ($jumlahBuku < 1) {
+            return redirect()
+                ->route('buku.index')
+                ->with(['status' => 0, 'messages' => 'Silahkan dipilih buku yang akan dipinjam terlebih dahulu.']);
+        }
+
         return redirect()
-            ->route('buku.index')
-            ->with(['status' => 0, 'messages' => 'Silahkan dipilih buku yang akan dipinjam terlebih dahulu.']);
+            ->route('pengajuan.index');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateDDCRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateDDCRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,9 @@ class UpdateDDCRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'kode' => ['required', Rule::unique('ddc')->ignore($this->ddc->kode, 'kode')],
+            'klasifikasi' => 'required',
+            'jumlah' => 'required'
         ];
     }
 }

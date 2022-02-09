@@ -30,7 +30,9 @@ class DDCController extends Controller
             ->when(
                 isset($httpRequestAttributes['order_by']),
                 Paginator::paginateByOrderAttribute($orderBy, $orderAs
-            ))->paginate($perPage);
+            ))
+            ->orderBy('kode', 'asc')
+            ->paginate($perPage);
 
         // @TODO : remove query string for next and previous links if not available
         $paginated->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
@@ -93,7 +95,7 @@ class DDCController extends Controller
      */
     public function edit(DDC $ddc)
     {
-        //
+        return view('ddc.edit', $ddc->toArray());
     }
 
     /**
@@ -105,7 +107,11 @@ class DDCController extends Controller
      */
     public function update(UpdateDDCRequest $request, DDC $ddc)
     {
-        //
+        $ddc->update($request->validated());
+
+        return redirect()
+            ->route('ddc.edit', ['ddc' => $ddc->id])
+            ->with(['status' => 1, 'messages' => 'Data berhasil diperbaharui.']);
     }
 
     /**

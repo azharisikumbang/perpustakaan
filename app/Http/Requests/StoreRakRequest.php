@@ -24,7 +24,7 @@ class StoreRakRequest extends FormRequest
     public function rules()
     {
         return [
-			'kode' => 'required|unique:App\Models\Rak,kode',
+			'kode' => 'required',
 			'alias' => 'nullable'
         ];
     }

@@ -34,7 +34,9 @@ class BukuController extends Controller
             ->when(
                 isset($httpRequestAttributes['order_by']),
                 Paginator::paginateByOrderAttribute($orderBy, $orderAs
-            ))->paginate($perPage);
+            ))
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
 
         // @TODO : remove query string for next and previous links if not available
         $paginated->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);
@@ -111,6 +113,7 @@ class BukuController extends Controller
     public function edit(Buku $buku)
     {
         return view('buku.edit', [
+            'listDDC' => DDC::all()->toArray(),
             'listRak' => Rak::all()->toArray(),
             'buku' => $buku->toArray()
         ]);

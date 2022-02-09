@@ -39,17 +39,26 @@
                             <input type="number" name="tahun_terbit" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" size="4" value="{{ old('tahun_terbit') ?? $buku['tahun_terbit'] }}" required="">
                         </div>
                     </div>
-                    <div class="mb-4 grid grid-cols-3 gap-4">
+                    <div class="mb-4 grid grid-cols-4 gap-4">
                         <div>
                             <label class="text-sm font-medium text-gray-900 block mb-2">Tanggal Masuk Buka<span class="text-red-500">*</span></label>
                             <input type="date" name="tanggal_masuk" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" value="{{ old('tanggal_masuk') ?? $buku['tanggal_masuk'] }}" required="">
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-900 block mb-2">Kode DDC <span class="text-red-500">*</span></label>
+                            <select name="ddc_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
+                                <option value="">-- Pilih Kode DDC --</option>
+                                @foreach($listDDC as $ddc)
+                                    <option value="{{ $ddc['id'] }}" <?= (old('ddc_id') == $ddc['id'] || $buku['ddc_id'] == $ddc['id']) ? 'selected' : '' ?>>{{ $ddc['kode'] }} - {{ $ddc['klasifikasi'] }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label class="text-sm font-medium text-gray-900 block mb-2">Nomor Rak <span class="text-red-500">*</span></label>
                             <select name="rak_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                                 <option value="">-- Pilih Rak --</option>
                                 @foreach($listRak as $rak)
-                                    <option value="{{ $rak['id'] }}" {{ (old('rak_id') == $rak['id'] || $buku['rak_id'] == $rak['id']) ? 'selected' : ''}}>{{ $rak['kode'] }} - {{ $rak['alias'] }}</option>
+                                    <option value="{{ $rak['id'] }}" <?= (old('rak_id') == $rak['id'] || $buku['rak_id'] == $rak['id']) ? 'selected' : '' ?>>{{ $rak['kode'] }} - {{ $rak['alias'] }}</option>
                                 @endforeach
                             </select>
                         </div>

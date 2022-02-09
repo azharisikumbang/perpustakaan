@@ -14,7 +14,7 @@
 							<span class="ml-3">Dashboard</span>
 						</a>
 					</li>
-					@hasanyrole('anggota|admin')
+					@hasanyrole('anggota|administrator')
 					<!-- Pencarian -->
 					<li>
 						<a href="{{ route('pencarian.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
@@ -78,7 +78,7 @@
 						</a>
 					</li>
 					@endrole
-					@role('admin')
+					@role('administrator')
 					<!-- Peminjaman -->
 					<li>
 						<a href="{{ route('peminjaman.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
@@ -113,7 +113,7 @@
 						</a>
 					</li>
 					@endrole
-					@hasanyrole('admin|kepala')
+					@hasanyrole('administrator|kepala')
 					<!-- Laporan -->
 					<li>
 						<a href="{{ route('laporan.index') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
@@ -132,7 +132,7 @@
 						</a>
 					</li>
 					@endhasanyrole
-					@role('admin')
+					@role('administrator')
 					<!-- Pengaturan -->
 					<li>
 						<a href="{{ route('pengaturan.edit') }}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">

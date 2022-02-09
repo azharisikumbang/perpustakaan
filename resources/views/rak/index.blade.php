@@ -21,10 +21,10 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-20 p-2.5 cursor-pointer w-12"
                         onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value)";
                     >
-                        <option value="{{ secure_url(route('rak.index', ['limit' => 10 ])) }}" {{ ($per_page == 10) ? 'selected' : ''}}>10</option>
-                        <option value="{{ secure_url(route('rak.index', ['limit' => 20 ])) }}" {{ ($per_page == 20) ? 'selected' : ''}}>20</option>
-                        <option value="{{ secure_url(route('rak.index', ['limit' => 50 ])) }}" {{ ($per_page == 50) ? 'selected' : ''}}>50</option>
-                        <option value="{{ secure_url(route('rak.index', ['limit' => 100 ])) }}" {{ ($per_page == 100) ? 'selected' : ''}}>100</option>
+                        <option value="{{ secure_url(route('rak.index', ['limit' => 10 ])) }}" <?= ($per_page == 10) ? 'selected' : '' ?>>10</option>
+                        <option value="{{ secure_url(route('rak.index', ['limit' => 20 ])) }}" <?= ($per_page == 20) ? 'selected' : '' ?>>20</option>
+                        <option value="{{ secure_url(route('rak.index', ['limit' => 50 ])) }}" <?= ($per_page == 50) ? 'selected' : '' ?>>50</option>
+                        <option value="{{ secure_url(route('rak.index', ['limit' => 100 ])) }}" <?= ($per_page == 100) ? 'selected' : '' ?>>100</option>
                     </select>
                 </div>
 	    		<a href="{{ route('rak.create') }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">
@@ -41,8 +41,8 @@
     						<thead class="bg-gray-100">
     							<tr>
     								<th class="w-4 p-4 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-    								<th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Kode Rak</th>
-    								<th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Alias</th>
+    								<th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Lemari</th>
+    								<th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Nomor Rak</th>
     								<th></th>
     							</tr>
     						</thead>

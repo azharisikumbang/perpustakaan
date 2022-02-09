@@ -31,11 +31,13 @@ class PencarianController extends Controller
                 $model = new $model();
                 $found = $model->where(['kode' => $request->get('kode')])->first();
 
+                if (is_null($found)) continue;
+
                 return redirect()
                     ->route(sprintf("%s.show", strtolower($object)), [ strtolower($object) => $found->id ]);
             }
         }
         
-        return redirect()->route('dashboard');
+        return redirect()->back()->with(['messages' => 'Terjadi kesalahan, mohon periksa aktifitas anda kembali.']);
     }
 }

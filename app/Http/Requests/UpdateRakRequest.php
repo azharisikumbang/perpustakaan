@@ -25,7 +25,7 @@ class UpdateRakRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode' => [ 'required', Rule::unique('rak')->ignore($this->rak->kode, 'kode') ],
+            'kode' => 'required',
             'alias' => 'nullable'
         ];
     }

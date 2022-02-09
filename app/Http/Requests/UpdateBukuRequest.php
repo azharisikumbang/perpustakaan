@@ -26,7 +26,7 @@ class UpdateBukuRequest extends FormRequest
     {
         return [
             'kode' => ['required', Rule::unique('buku')->ignore($this->buku->kode, 'kode')],
-            'isbn' => 'required|string',
+            'isbn' => 'nullable|string',
             'judul' => 'required|string',
             'sampul' => 'sometimes|image',
             'penerbit' => 'required|string',

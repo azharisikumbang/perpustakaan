@@ -52,6 +52,7 @@ class LaporanKeanggotaanService implements LaporanExcelInterface
 			'jenis_kelamin' => 'Jenis Kelamin',
 			'alamat_pribadi' => 'Alamat Pribadi',
 			'kontak' => 'Kontak',
+			'email' => 'Email',
 			'kode' => 'Nomor Identitas',
 			'institusi' => 'Nama Institusi',
 			'alamat_institusi' => 'Alamat Institusi',
@@ -67,9 +68,10 @@ class LaporanKeanggotaanService implements LaporanExcelInterface
 
 	private function provideData() : Collection
 	{
-		$collection = Anggota::select(DB::raw('anggota.*, count(peminjaman.kode) as jumlah_peminjaman, sum(pembayaran.nominal) as akumulasi_denda'))
+		$collection = Anggota::select(DB::raw('anggota.*, count(peminjaman.kode) as jumlah_peminjaman, sum(pembayaran.nominal) as akumulasi_denda, users.email as email'))
 				->leftJoin('peminjaman', 'anggota.id', '=', 'peminjaman.peminjam')
 				->leftJoin('pembayaran', 'peminjaman.id', '=', 'pembayaran.peminjaman_id')
+				->leftJoin('users', 'users.id', '=', 'anggota.auth')
 				->groupBy('anggota.id')
 				->when($this->year, fn($builder) => $builder->whereYear('anggota.created_at', '=', $this->year))
 				->when($this->month, fn($builder) => $builder->whereMonth('anggota.created_at', '=', $this->month))

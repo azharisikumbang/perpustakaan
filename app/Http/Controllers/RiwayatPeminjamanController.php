@@ -33,7 +33,7 @@ class RiwayatPeminjamanController extends Controller
                 isset($httpRequestAttributes['order_by']),
                 Paginator::paginateByOrderAttribute($orderBy, $orderAs)
             )
-            ->where('peminjam', $user->anggota()->id)
+            ->where('peminjam', $user->anggota->id)
             ->paginate($perPage);
 
         $listPeminjaman->appends(['limit' => $perPage, 'order_by' => $orderBy, 'order_as' => $orderAs]);

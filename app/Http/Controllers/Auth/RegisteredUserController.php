@@ -36,20 +36,31 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'nama' => 'required', 
+            'kode' => 'required|unique:App\Models\Anggota,kode', 
+            'institusi' => 'required', 
+            'alamat_institusi' => 'required', 
+            'alamat_pribadi' => 'required', 
+            'jenis_kelamin' => 'required|size:1', 
+            'kontak' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
         $anggota = Anggota::make([
-            'nama' => $request->name,
-            'kode' => 'X-' . time() // @TODO : implemen auto generate kode
+            'nama' => $request->nama,
+            'kode' => $request->kode,
+            'institusi' => $request->institusi,
+            'alamat_institusi' => $request->alamat_institusi,
+            'alamat_pribadi' => $request->alamat_pribadi,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'kontak' => $request->kontak
         ]); 
 
         $user->anggota()->save($anggota);

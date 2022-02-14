@@ -27,8 +27,8 @@
                         <div>
                             <label class="text-sm font-medium text-gray-900 block mb-2">Jenis Kelamin <span class="text-red-500">*</span></label>
                             <select name="jenis_kelamin" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
-                                <option value="1" {{ ((old('jenis_kelamin') ?? $anggota['jenis_kelamin']) == '1' ? 'selected' : '')  }}>Laki - Laki</option>
-                                <option value="2" {{ ((old('jenis_kelamin') ?? $anggota['jenis_kelamin']) == '2' ? 'selected' : '')  }}>Wanita</option>
+                                <option value="1" <?= ((old('jenis_kelamin') ?? $anggota['jenis_kelamin']) == '1' ? 'selected' : '')  ?>>Laki - Laki</option>
+                                <option value="2" <?= ((old('jenis_kelamin') ?? $anggota['jenis_kelamin']) == '2' ? 'selected' : '')  ?>>Wanita</option>
                             </select>
                         </div>
                     </div>
@@ -36,10 +36,14 @@
                         <label class="text-sm font-medium text-gray-900 block mb-2">Alamat Pribadi <span class="text-red-500">*</span></label>
                         <textarea name="alamat_pribadi" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">{{ old('alamat_pribadi') ?? $anggota['alamat_pribadi'] }}</textarea>
                     </div>
-                    <hr>
                     <div class="mb-4">
                         <label class="text-sm font-medium text-gray-900 block mb-2">Nama Institusi / Lembaga <span class="text-red-500">*</span></label>
-                        <input type="text" name="institusi" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" value="{{ old('institusi') ?? $anggota['institusi'] }}">
+                        <select name="institusi" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                        <?php $listInstansi = ['MTSN', 'MTSS', 'MAN', 'UIN', 'IAIN', 'Kementrian Agama', 'Kementrian Balai Pendidikan'];
+                            foreach ($listInstansi as $instansi) { ?>
+                                <option value="{{ $instansi }}" <?= (strtolower($anggota['institusi']) == strtolower($instansi)) ? 'selected' : '' ?>>{{ $instansi }}</option> 
+                        <?php } ?>
+                        </select>
                     </div>
                     <div class="mb-4">
                         <label class="text-sm font-medium text-gray-900 block mb-2">Alamat Institusi <span class="text-red-500">*</span></label>

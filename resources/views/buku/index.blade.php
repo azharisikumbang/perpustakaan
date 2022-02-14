@@ -45,6 +45,7 @@
                                     <th class="w-4 p-4 text-left text-xs font-medium text-gray-500 uppercase">No</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Kode Buku</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Judul</th>
+                                    <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Stok Buku</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Klasifikasi Buku</th>
                                     <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Posisi Rak</th>
                                     <th></th>
@@ -60,7 +61,10 @@
                                         <a class="hover:underline cursor-pointer" href="{{ route('buku.show', ['buku' => $buku['id']]) }}">{{ $buku['kode'] }}</a>
                                     </td>
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                        {{ $buku['judul'] }}
+                                        {{ substr($buku['judul'], 0, 30) }}...
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                                        {{ $buku['stok'] }}
                                     </td>
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $buku['ddc']['kode'] }} - {{ $buku['ddc']['klasifikasi'] }}
@@ -110,7 +114,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td class="text-center p-4 whitespace-nowrap text-sm font-normal text-gray-500" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center p-4 whitespace-nowrap text-sm font-normal text-gray-500" colspan="5">Data buku tidak tersedia.</td>
                                 </tr>
                                 @endforelse
                             </tbody>

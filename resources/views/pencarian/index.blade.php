@@ -59,7 +59,7 @@
                                         <?= $no++; ?>
                                     </td>
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                        {{ $item->display }}
+                                        {{ substr($item->display, 0, 70) }}...
                                     </td>
                                     <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                                         {{ $item->tipe_display }}

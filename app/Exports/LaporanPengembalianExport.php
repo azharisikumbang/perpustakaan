@@ -7,8 +7,13 @@ use App\Utils\LaporanViewHandler;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\BaseDrawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class LaporanPengembalianExport implements FromView
+class LaporanPengembalianExport implements FromView, WithDrawings, ShouldAutoSize, WithStyles
 {
 	private string $tipe = 'pengembalian';
 
@@ -34,5 +39,25 @@ class LaporanPengembalianExport implements FromView
 	public function view(): View
 	{
 		return LaporanViewHandler::generateFromTemplate(new LaporanPengembalianService($this->limit, $this->periode_tahun, $this->periode_bulan, $this->periode_hari), 'laporan.base-nested');
+	}
+
+	public function styles(Worksheet $sheet)
+	{
+		return [
+			1 => ['font' => [ 'bold' => true, 'size' => 16 ]],
+			2 => ['font' => [ 'size' => 12 ]],
+			4 => ['font' => [ 'bold' => true, 'size' => 13 ]],
+			7 => ['font' => [ 'bold' => true, 'size' => 13 ]],
+		];
+	}
+
+	public function drawings() 
+	{
+		return $this->logo;
+	}
+
+	public function setLogo(BaseDrawing $drawing) : void
+	{
+		$this->logo = $drawing;
 	}
 }

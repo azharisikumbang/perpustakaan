@@ -1,13 +1,25 @@
 <table>
-	<thead>
+	<thead><?php $cols = count($handler->getHeader()) + 1; ?>
+		<tr>
+			<th style="text-align: center; vertical-align: bottom; height: 50px" colspan="{{ $cols }}">
+				KEMENTERIAN AGAMA REPUBLIK INDONESIA
+				<p>BALAI PENDIDIKAN DAN PELATIHAN KEAGAMAAN PADANG</p>
+			</th>
+		</tr>
+		<tr>
+			<th style="text-align: center; vertical-align: top; height: 45px; border-bottom: 5px solid #000;" colspan="{{ $cols }}">
+				Jalan Batang kapur no. 7 padang 25138 telepon. (0751) 7053807 faksimili (0751) 411 69
+				<p>Website :http://bdkpadang.kemenag.go.id Email : bdkpadang@kemenag.go.id</p>
+			</th>
+		</tr>
 		<tr></tr>
 		<tr>
 			<th 
-			style="height: 30px; text-align: left; vertical-align: center; font-weight: bold; font-size: 18px"
-			colspan="{{ count($handler->getHeader()) + 1 }}">{{ strtoupper($handler->getTitle()) }}</th>
+			style="height: 16px; text-align: left; vertical-align: center; font-weight: bold; font-size: 14px"
+			colspan="{{ $cols }}">{{ strtoupper($handler->getTitle()) }}</th>
 		</tr>
 		<tr>
-			<th colspan="2">Dibuat tanggal : {{ $handler->getTimestamp()->format('d/m/Y H:i:s') }}</th>
+			<th colspan="{{ $cols }}">Dibuat tanggal : {{ $handler->getTimestamp()->format('d/m/Y H:i:s') }} WIB</th>
 		</tr>
 		<tr></tr>
 		<tr style="">
@@ -36,4 +48,20 @@
 			@endfor
 		@endforeach
 	</tbody>
+	<tfoot>
+		<tr></tr>
+		<tr></tr>
+		<tr>
+			<td colspan="{{ $cols - 3 }}"></td>
+			<td style="text-align: center; vertical-align: top; height: 120px;" colspan="3">
+				Kepala
+			</td>
+		</tr>
+		<tr>
+			<td colspan="{{ $cols - 3 }}"></td>
+			<td style="text-align: center; vertical-align: center;" colspan="3">
+				Khairul Amani
+			</td>
+		</tr>
+	</tfoot>
 </table>

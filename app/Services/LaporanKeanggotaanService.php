@@ -114,6 +114,7 @@ class LaporanKeanggotaanService implements LaporanExcelInterface
 				'jumlah_pengembalian_terlambat' => $jumlahPengembalianTerlambat,
 				'jumlah_peminjaman_berlangsung' => $jumlahPeminjamanBerlangsung,
 				'jumlah_peminjaman_belum_dikembalikan' => $jumlahPeminjamanBelumDikembalikan,
+				'rows' => 1
 			]);
 		});
 	}

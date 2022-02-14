@@ -10,6 +10,6 @@ class LaporanKeanggotaanController extends Controller
 {
     public function __invoke(Request $request)
     {
-    	return Excel::download(new LaporanKeanggotaanExport(), sprintf('laporan-keanggotaan-%s.xlsx', time()));
+    	return view('laporan.base-nested', ['handler' => false]);
     }
 }

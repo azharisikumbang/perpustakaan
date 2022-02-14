@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Exception;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class LaporanExcelDownloader
@@ -48,6 +49,14 @@ class LaporanExcelDownloader
 
 		$filename = $filename ?? sprintf('laporan-%s-%s.xlsx', $tipe, date('Y-m-d_H-i-s'));
 		
+		$logo = new Drawing();
+		$logo->setName('Logo');
+        $logo->setDescription('Logo instansi perpustakaan');
+        $logo->setPath(public_path('/images/static/logo.png'));
+        $logo->setHeight(90);
+        $logo->setCoordinates('B1');
+		$exporter->setLogo($logo);
+
 		return Excel::download($exporter, $filename);
 	}
 }

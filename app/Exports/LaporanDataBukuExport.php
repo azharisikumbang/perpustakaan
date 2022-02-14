@@ -7,8 +7,13 @@ use App\Utils\LaporanViewHandler;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\BaseDrawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class LaporanDataBukuExport implements FromView
+class LaporanDataBukuExport implements FromView, ShouldAutoSize, WithStyles, WithDrawings
 {
     private string $tipe = 'data-buku';
 
@@ -19,6 +24,10 @@ class LaporanDataBukuExport implements FromView
 	private int $periode_bulan;
 
 	private int $periode_hari;
+
+	private ?BaseDrawing $logo;
+
+	private $mainTitle = "";
 
 	public function __construct(Request $request)
 	{
@@ -37,5 +46,25 @@ class LaporanDataBukuExport implements FromView
 			new LaporanDataBukuService($this->limit, $this->periode_tahun, $this->periode_bulan, $this->periode_hari), 
 			'laporan.base-nested'
 		);
+	}
+
+	public function styles(Worksheet $sheet)
+	{
+		return [
+			1 => ['font' => [ 'bold' => true, 'size' => 16 ]],
+			2 => ['font' => [ 'size' => 12 ]],
+			4 => ['font' => [ 'bold' => true, 'size' => 13 ]],
+			7 => ['font' => [ 'bold' => true, 'size' => 13 ]],
+		];
+	}
+
+	public function drawings() 
+	{
+		return $this->logo;
+	}
+
+	public function setLogo(BaseDrawing $drawing) : void
+	{
+		$this->logo = $drawing;
 	}
 }

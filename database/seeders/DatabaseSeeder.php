@@ -76,6 +76,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory(20)->create()->each(function ($user) {
             $user->anggota()->save(Anggota::factory()->make(['nama' => $user->name]));
+            $user->assignRole(Role::ANGGOTA);
         });
 
         $listAnggota = Anggota::all();

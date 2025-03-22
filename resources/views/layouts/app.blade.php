@@ -1,38 +1,60 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-50">
-            @include('layouts.navigation')
+    <style>
+        .delay-show {
+            display: none;
+        }
+    </style>
 
-            <div class="flex overflow-hidden bg-white pt-16">
-                @include('layouts.sidebar')
-                <!-- Page Content -->
-                <div class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
-                    <main>
-                        <div class="pt-6 px-4">
-                            <div id="alert">@include('layouts.alert')</div>
-                            <div class="mb-4">{{ $header }}</div>
-                            <div class="mb-4">{{ $slot }}</div>
-                        </div>
-                    </main>
-                </div>
+    <script>
+        // solusi sementara untuk elemen overlay yang delay
+        setTimeout(function() {
+            var hiddenElems = document.getElementsByClassName("delay-show");
+
+            for(var i = 0; i < hiddenElems.length; i++)
+            {
+                hiddenElems[i].style.display = "block";
+            }
+        }, 500)
+    </script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+</head>
+
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-gray-50">
+        @include('layouts.navigation')
+
+        <div class="flex overflow-hidden bg-white pt-16">
+            @include('layouts.sidebar')
+            <!-- Page Content -->
+            <div class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
+                <main class="delay-show">
+                    <div class="pt-6 px-4">
+                        <div id="alert">@include('layouts.alert')</div>
+                        <div class="mb-4">{{ $header }}</div>
+                        <div class="mb-4">{{ $slot }}</div>
+                    </div>
+                </main>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

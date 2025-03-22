@@ -30,16 +30,16 @@ class DatabaseSeeder extends Seeder
 
         // role 
         Role::factory()->createMany([
-            [ 'name' => Role::ANGGOTA ],
-            [ 'name' => Role::ADMINISTRATOR ],
-            [ 'name' => Role::KEPALA ],
+            ['name' => Role::ANGGOTA],
+            ['name' => Role::ADMINISTRATOR],
+            ['name' => Role::KEPALA],
         ]);
 
         // pengguna
         // administrator
         $admin = User::factory()->create([
             'name' => 'Administrator',
-            'email' => 'admin@administrator.local',
+            'email' => 'admin@perpustakaan.local',
             'password' => Hash::make('admin')
         ]);
         $admin->assignRole(Role::ADMINISTRATOR);
@@ -47,18 +47,20 @@ class DatabaseSeeder extends Seeder
         // kepala
         $kepala = User::factory()->create([
             'name' => 'Kepala',
-            'email' => 'kepala@administrator.local',
+            'email' => 'kepala@perpustakaan.local',
             'password' => Hash::make('kepala')
         ]);
         $kepala->assignRole(Role::KEPALA);
 
         // daftar rak
         $listRak = [];
-        for ($i = 1; $i <= 27; $i++) {
-            for ($j = 1; $j <= 4; $j++) {
+        for ($i = 1; $i <= 27; $i++)
+        {
+            for ($j = 1; $j <= 4; $j++)
+            {
                 $listRak[] = [
                     'kode' => sprintf('Lemari %s', $i),
-                    'alias' => sprintf('Rak 00%s', $j) 
+                    'alias' => sprintf('Rak 00%s', $j)
                 ];
             }
         }
@@ -82,7 +84,7 @@ class DatabaseSeeder extends Seeder
         $listAnggota = Anggota::all();
 
         // peminjaman dikembalikan tepat waktu
-        $listAnggota->each(function($anggota) use($pengaturan, $listBuku) {
+        $listAnggota->each(function ($anggota) use ($pengaturan, $listBuku) {
             $peminjaman = $this->generatePeminjaman(
                 $pengaturan,
                 new \DateTime(),
@@ -91,7 +93,8 @@ class DatabaseSeeder extends Seeder
 
             $anggota->peminjaman()->save($peminjaman);
 
-            for ($i = 0; $i < rand(1, 3); $i++) {
+            for ($i = 0; $i < rand(1, 3); $i++)
+            {
                 $peminjaman->buku()->attach(
                     $listBuku->random(1)->pluck('id')->toArray(),
                     ['jumlah' => rand(1, 3)]
@@ -101,7 +104,7 @@ class DatabaseSeeder extends Seeder
         });
 
         // peminjaman dikembalikan terlambat
-        $listAnggota->each(function($anggota) use($pengaturan, $listBuku) {
+        $listAnggota->each(function ($anggota) use ($pengaturan, $listBuku) {
             $peminjaman = $this->generatePeminjaman(
                 $pengaturan,
                 new \DateTime(sprintf("-%s days", rand(10, 50))),
@@ -110,7 +113,8 @@ class DatabaseSeeder extends Seeder
 
             $anggota->peminjaman()->save($peminjaman);
 
-            for ($i = 0; $i < rand(1, 3); $i++) {
+            for ($i = 0; $i < rand(1, 3); $i++)
+            {
                 $peminjaman->buku()->attach(
                     $listBuku->random(1)->pluck('id')->toArray(),
                     ['jumlah' => rand(1, 3)]
@@ -120,7 +124,7 @@ class DatabaseSeeder extends Seeder
         });
 
         // peminjaman belum dikembalikan tapi tidak terlambat
-        $listAnggota->each(function($anggota) use($pengaturan, $listBuku) {
+        $listAnggota->each(function ($anggota) use ($pengaturan, $listBuku) {
             $peminjaman = $this->generatePeminjaman(
                 $pengaturan,
                 new \DateTime()
@@ -128,7 +132,8 @@ class DatabaseSeeder extends Seeder
 
             $anggota->peminjaman()->save($peminjaman);
 
-            for ($i = 0; $i < rand(1, 3); $i++) {
+            for ($i = 0; $i < rand(1, 3); $i++)
+            {
                 $peminjaman->buku()->attach(
                     $listBuku->random(1)->pluck('id')->toArray(),
                     ['jumlah' => rand(1, 3)]
@@ -138,7 +143,7 @@ class DatabaseSeeder extends Seeder
         });
 
         // peminjaman belum dikembalikan tapi telah terlambat
-        $listAnggota->each(function($anggota) use($pengaturan, $listBuku) {
+        $listAnggota->each(function ($anggota) use ($pengaturan, $listBuku) {
             $peminjaman = $this->generatePeminjaman(
                 $pengaturan,
                 new \DateTime(sprintf("-%s days", rand(10, 50)))
@@ -146,7 +151,8 @@ class DatabaseSeeder extends Seeder
 
             $anggota->peminjaman()->save($peminjaman);
 
-            for ($i = 0; $i < rand(1, 3); $i++) {
+            for ($i = 0; $i < rand(1, 3); $i++)
+            {
                 $peminjaman->buku()->attach(
                     $listBuku->random(1)->pluck('id')->toArray(),
                     ['jumlah' => rand(1, 3)]
@@ -158,7 +164,7 @@ class DatabaseSeeder extends Seeder
 
     private function generatePeminjaman(
         Pengaturan $pengaturan,
-        ?\DateTime $tanggal_peminjaman = null, 
+        ?\DateTime $tanggal_peminjaman = null,
         ?\DateTime $tanggal_pengembalian = null
     ) {
         $peminjaman = Peminjaman::factory()->make([
@@ -172,13 +178,15 @@ class DatabaseSeeder extends Seeder
     }
 
     private function generatePengembalian(
-        Peminjaman $peminjaman, 
+        Peminjaman $peminjaman,
         HitungKeterlambatanService $service
     ) {
-        if (is_null($peminjaman->tanggal_pengembalian)) return;
+        if (is_null($peminjaman->tanggal_pengembalian))
+            return;
 
         $keterlambatan = $service->hitung($peminjaman, new \DateTime($peminjaman->tanggal_pengembalian));
-        if ($keterlambatan < 1) return;
+        if ($keterlambatan < 1)
+            return;
 
         $pembayaran = Pembayaran::factory()->make([
             'nominal' => $peminjaman->nominal_denda * $keterlambatan
@@ -187,7 +195,7 @@ class DatabaseSeeder extends Seeder
         $peminjaman->pembayaran()->save($pembayaran);
     }
 
-    private function daftarBuku(int $limit = 0) : array
+    private function daftarBuku(int $limit = 0): array
     {
         $buku = [
             [
@@ -1273,7 +1281,7 @@ class DatabaseSeeder extends Seeder
         return ($limit) ? array_slice($buku, 0, $limit) : $buku;
     }
 
-    private function daftarDDC(int $limit = 0) : array
+    private function daftarDDC(int $limit = 0): array
     {
         $ddc = [
             [

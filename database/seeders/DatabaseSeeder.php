@@ -39,16 +39,16 @@ class DatabaseSeeder extends Seeder
         // administrator
         $admin = User::factory()->create([
             'name' => 'Administrator',
-            'email' => 'admin@perpustakaan.local',
-            'password' => Hash::make('admin')
+            'email' => 'administrator@demo.test',
+            'password' => Hash::make('admin123')
         ]);
         $admin->assignRole(Role::ADMINISTRATOR);
 
         // kepala
         $kepala = User::factory()->create([
             'name' => 'Kepala',
-            'email' => 'kepala@perpustakaan.local',
-            'password' => Hash::make('kepala')
+            'email' => 'kepala@demo.test',
+            'password' => Hash::make('kepala123')
         ]);
         $kepala->assignRole(Role::KEPALA);
 

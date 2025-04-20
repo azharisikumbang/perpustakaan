@@ -1,6 +1,8 @@
 # Project Description
 
-Aplikasi untuk mengelola data buku, peminjaman dam denda keterlambatan. Aplikasi dirancang sebagai onsite app dan admin oriented.
+Aplikasi web untuk mengelola sistem perpustakaan dengan menitikberatkan pada ruang lingkup hanya administrator. Memudahkan administrator untuk melakukan tugas-tugas pencatatan data buku, peminjaman, perhitungan denda keterlambatan dan sebagainya. 
+
+Note: Aplikasi tidak mempunya sistem registrasi untuk pengguna baru (hanya lewat administrator).
 
 # Features
 - [x] Authentication and Authorization (role-based)
